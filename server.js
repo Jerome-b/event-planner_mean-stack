@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 const dbConfig = require('./src/app/config/db.config');
 
 const app = express();
+const eventRoute = require('./src/app/routes/event.routes');
 
 const db = require("./src/app/models");
 const Role = db.role;
@@ -34,6 +35,8 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use('/api', eventRoute)
+
 /* simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to Jey application." });
@@ -47,6 +50,13 @@ require('./src/app/routes/user.routes')(app);
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
+});
+
+// error handler
+app.use(function (err, res) {
+  console.error(err.message); // Log error message in our server's console
+  if (!err.statusCode) err.statusCode = 500; // If err has no specified error code, set error code to 'Internal Server Error (500)'
+  res.status(err.statusCode).send(err.message); // All HTTP requests must have a response, so let's send back an error with its status code and message
 });
 
 function initial() {

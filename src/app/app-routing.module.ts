@@ -9,6 +9,10 @@ import { BoardUserComponent } from './board-user/board-user.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardAdminComponent } from './board-admin/board-admin.component';
 
+import { EventCreateComponent } from './event-create/event-create.component';
+import { EventEditComponent } from './event-edit/event-edit.component';
+import { EventListComponent } from './event-list/event-list.component';
+
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -17,7 +21,10 @@ const routes: Routes = [
   { path: 'user', component: BoardUserComponent },
   { path: 'mod', component: BoardModeratorComponent },
   { path: 'admin', component: BoardAdminComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'event-create', component: EventCreateComponent },
+  { path: 'event-list', component: EventListComponent },
+  { path: 'event-edit/:id', component: EventEditComponent }
 ];
 
 @NgModule({
