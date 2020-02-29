@@ -2,7 +2,7 @@
 
 ## Installation
 
-Install MongoDB server here https://www.mongodb.com/download-center/community
+Install MongoDB server here https://www.mongodb.com/download-center/community \
 Add Mongo's bin folder to the path environment variable.
 
 ## Necessary modules
