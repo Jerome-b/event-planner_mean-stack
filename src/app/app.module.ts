@@ -20,6 +20,13 @@ import { EventCreateComponent } from './event-create/event-create.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { ApiService } from './_services/api.service';
+import { SidemenuComponent } from './sidemenu/sidemenu.component';
+
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -34,6 +41,7 @@ import { ApiService } from './_services/api.service';
     EventCreateComponent,
     EventEditComponent,
     EventListComponent,
+    SidemenuComponent,
 
   ],
   imports: [
@@ -42,7 +50,12 @@ import { ApiService } from './_services/api.service';
     ReactiveFormsModule,
     FormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    MatToolbarModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
   ],
 
   providers: [authInterceptorProviders, ApiService],

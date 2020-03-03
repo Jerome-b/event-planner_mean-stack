@@ -45,7 +45,7 @@
           <select class="custom-select form-control" (change)="updateEvent($event.target.value)"
             formControlName="drinkSize">
             <option value="">Choose...</option>
-            <option *ngFor="let DrinkSize of drinkSize" value="{{drinkSize}}">{{drinkSize}}
+            <option *ngFor="let drinkSize of drinkSize" value="{{drinkSize}}">{{drinkSize}}
             </option>
           </select>
           <!-- error -->
@@ -55,7 +55,7 @@
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Register</button>
+          <button class="btn btn-success btn-lg btn-block" type="submit">Add</button>
         </div>
       </form>
 
