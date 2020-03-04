@@ -1,27 +1,20 @@
-# CrudAppAuth
+# Event planner (in development)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.8.
+## Installation
 
-## Development server
+Install MongoDB server here https://www.mongodb.com/download-center/community \
+Add Mongo's bin folder to the path environment variable.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Necessary modules
 
-## Code scaffolding
+Go to your project folder and run the following commands:\
+Run `npm install @angular-devkit/build-angular`\
+Run `npm install express mongoose body-parser cors jsonwebtoken bcryptjs --save'` to install the modules\
+Run `npm install -g nodemon`
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Execute code
 
-## Build
+Run `mongod` to start the database.\
+Run `node server.js` to connect to database.\
+Run `ng serve --port 8081` to launch the app.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).

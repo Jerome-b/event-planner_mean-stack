@@ -1,5 +1,5 @@
 const express = require("express");
-// const path = require('path');
+const path = require('path');
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require('mongoose');
@@ -34,8 +34,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
 
-// app.use(express.static(path.join(__dirname, 'dist/eventplanner')));
-// app.use('/', express.static(path.join(__dirname, 'dist/eventplanner')));
+app.use(express.static(path.join(__dirname, 'dist/eventplanner')));
+app.use('/', express.static(path.join(__dirname, 'dist/eventplanner')));
 app.use('/eventapi', eventRoute)
 
 /* simple route

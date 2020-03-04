@@ -48,7 +48,7 @@
 
           <div class="form-group">
             <label for="inputSize">Drink size</label>
-            <select class="custom-select form-control" (change)="updateEvent($event.target.value)"
+            <select class="custom-select form-control" (change)="updateEvent()"
               formControlName="drinkSize">
               <option value="">Choose...</option>
               <option *ngFor="let DrinkSize of drinkSize" value="{{drinkSize}}">{{drinkSize}}
