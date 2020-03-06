@@ -16,7 +16,16 @@ let Event = new Schema({
       type: String
    },
    drinkSize: {
+     type: String
+   },
+   drinkSizeNumber: {
      type: Number
+   },
+   drinkQuantity: {
+     type: Number
+   },
+   test: {
+     type: String
    }
 }, {
    collection: 'events'

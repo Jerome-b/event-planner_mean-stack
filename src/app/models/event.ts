@@ -3,5 +3,7 @@ export class Event {
   description: string;
   address: string;
   drinkName: string;
-  drinkSize: number;
+  drinkSize: string;
+  drinkQuantity: number;
+  test: string;
 }

@@ -14,7 +14,7 @@ export class EventEditComponent implements OnInit {
   submitted = false;
   editForm: FormGroup;
   eventData: Event[];
-  drinkSize: any = ['fl.oz', 'L', 'mL'];
+  drinkSizeSelection: any = ['fl.oz', 'L', 'mL'];
 
   constructor(
     public fb: FormBuilder,
@@ -32,12 +32,14 @@ export class EventEditComponent implements OnInit {
       description: ['', [Validators.required]],
       address: ['', [Validators.required]],
       drinkName: ['', [Validators.required]],
-      drinkSize: ['', [Validators.required]]
+      drinkSize: ['', [Validators.required]],
+      drinkSizeNumber: ['', [Validators.required]],
+      drinkQuantity: ['', [Validators.required]]
     });
   }
 
   // Choose options with select-dropdown
-  updateProfile(e) {
+  updateEventForm(e) {
     this.editForm.get('drinkSize').setValue(e, {
       onlySelf: true
     });
@@ -55,7 +57,9 @@ export class EventEditComponent implements OnInit {
         description: data.description,
         address: data.address,
         drinkName: data.drinkName,
-        drinkSize: data.drinkSize
+        drinkSize: data.drinkSize,
+        drinkSizeNumber: data.drinkSizeNumber,
+        drinkQuantity: data.drinkQuantity
       });
     });
   }
@@ -66,7 +70,9 @@ export class EventEditComponent implements OnInit {
       description: ['', [Validators.required]],
       address: ['', [Validators.required]],
       drinkName: ['', [Validators.required]],
-      drinkSize: ['', [Validators.required]]
+      drinkSize: ['', [Validators.required]],
+      drinkSizeNumber: ['', [Validators.required]],
+      drinkQuantity: ['', [Validators.required]]
     });
   }
 

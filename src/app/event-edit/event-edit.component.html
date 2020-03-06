@@ -9,6 +9,7 @@
       <div class="card-body">
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
 
+            <!-- event name -->
             <div class="form-group">
               <label for="inputName">Name</label>
               <input class="form-control" type="text" formControlName="name">
@@ -18,6 +19,7 @@
               </div>
           </div>
 
+          <!-- event description -->
           <div class="form-group">
             <label for="inputDescription3">Description</label>
             <input class="form-control" type="text" formControlName="description">
@@ -27,7 +29,7 @@
             </div>
           </div>
 
-
+          <!-- event address -->
           <div class="form-group">
             <label for="inputAddress3">Address</label>
             <input class="form-control" type="text" formControlName="address">
@@ -37,6 +39,7 @@
             </div>
           </div>
 
+          <!-- event drink -->
           <div class="form-group">
             <label for="inputdrinkName3">Drink Name</label>
             <input class="form-control" type="text" formControlName="drinkName">
@@ -46,22 +49,37 @@
             </div>
           </div>
 
+          <!-- event drink -->
           <div class="form-group">
-            <label for="inputSize">Drink size</label>
-            <select class="custom-select form-control" (change)="updateEvent()"
+            <label for="inputSize3">Drink size</label>
+            <input class="form-control" type="number" formControlName="drinkSizeNumber">
+            <select class="custom-select form-control" (change)="updateEventForm($event.target.value)"
               formControlName="drinkSize">
-              <option value="">Choose...</option>
-              <option *ngFor="let DrinkSize of drinkSize" value="{{drinkSize}}">{{drinkSize}}
+              <option value="">Choose size unit...</option>
+              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
               </option>
             </select>
             <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.drinkSizeNumber.errors?.required">
+              Enter size number
+            </div>
             <div class="invalid-feedback" *ngIf="submitted && myForm.drinkSize.errors?.required">
               Choose size
             </div>
           </div>
 
+          <!-- event drink quantity -->
           <div class="form-group">
-            <button class="btn btn-success btn-lg btn-block" type="submit">Register</button>
+            <label for="inputNumber3">Number of drinks</label>
+            <input class="form-control" type="number" formControlName="drinkQuantity">
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.drinkQuantity.errors?.required">
+              Enter the number of drink
+            </div>
+          </div>
+
+          <div class="form-group">
+            <button class="btn btn-success btn-lg btn-block" type="submit">Edit</button>
           </div>
         </form>
 

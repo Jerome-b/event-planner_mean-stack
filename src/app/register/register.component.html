@@ -15,6 +15,55 @@
       novalidate
     >
 
+
+      <!-- First name registration -->
+      <div class="form-group">
+        <label for="firstname">First name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="firstname"
+          [(ngModel)]="form.firstname"
+          required
+          minlength="2"
+          maxlength="20"
+          #firstname="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && firstname.invalid">
+          <div *ngIf="firstname.errors.required">First name is required</div>
+          <div *ngIf="firstname.errors.minlength">
+            First name must be at least 2 characters
+          </div>
+          <div *ngIf="firstname.errors.maxlength">
+            Username must be at most 20 characters
+          </div>
+        </div>
+      </div>
+
+      <!-- Last name registration -->
+      <div class="form-group">
+        <label for="lastname">Last name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="lastname"
+          [(ngModel)]="form.lastname"
+          required
+          minlength="2"
+          maxlength="20"
+          #lastname="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && lastname.invalid">
+          <div *ngIf="lastname.errors.required">Last name is required</div>
+          <div *ngIf="lastname.errors.minlength">
+            Last name must be at least 2 characters
+          </div>
+          <div *ngIf="lastname.errors.maxlength">
+            Last name must be at most 20 characters
+          </div>
+        </div>
+      </div>
+
       <!-- Username registration -->
       <div class="form-group">
         <label for="username">Username</label>
@@ -35,6 +84,30 @@
           </div>
           <div *ngIf="username.errors.maxlength">
             Username must be at most 20 characters
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone registration -->
+      <div class="form-group">
+        <label for="phone">Phone number</label>
+        <input
+          type="text"
+          class="form-control"
+          name="phone"
+          [(ngModel)]="form.phone"
+          required
+          minlength="2"
+          maxlength="13"
+          #phone="ngModel"
+        />
+        <div class="alert-danger" *ngIf="f.submitted && phone.invalid">
+          <div *ngIf="phone.errors.required">Phone number is required</div>
+          <div *ngIf="phone.errors.minlength">
+            Phone number must be at least 2 digits long
+          </div>
+          <div *ngIf="phone.errors.maxlength">
+            Phone number must be at most 13 digits long
           </div>
         </div>
       </div>

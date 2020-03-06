@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,7 +12,7 @@ export class EventCreateComponent implements OnInit {
 
   submitted = false;
   eventForm: FormGroup;
-  drinkSize: any = ['fl.oz', 'L', 'mL'];
+  drinkSizeSelection: any = ['fl.oz', 'L', 'mL'];
 
   constructor(
     public fb: FormBuilder,
@@ -31,7 +31,20 @@ export class EventCreateComponent implements OnInit {
       description: ['', [Validators.required]],
       address: ['', [Validators.required]],
       drinkName: ['', [Validators.required]],
-      drinkSize: ['', [Validators.required]]
+      drinkSize: ['', [Validators.required]],
+      drinkSizeNumber: ['', [Validators.required]],
+      drinkQuantity: ['', [Validators.required]],
+      tests: this.fb.array([this.testTask()])
+    });
+  }
+
+  get testControl() {
+    return this.eventForm.get('tests') as FormArray;
+  }
+
+  testTask() {
+    return this.fb.group({
+      test: ['', Validators.required]
     });
   }
 
@@ -45,6 +58,10 @@ export class EventCreateComponent implements OnInit {
   // Getter to access form control
   get myForm() {
     return this.eventForm.controls;
+  }
+
+  addtest() {
+    this.testControl.push(this.testTask());
   }
 
   onSubmit() {

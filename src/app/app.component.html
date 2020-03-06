@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <div id="app">
-      <nav class="navbar navbar-expand navbar-dark bg-dark">
+      <nav color="primary" class="navbar navbar-expand navbar-dark">
         <button mat-icon-button>
           <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
         </button>
@@ -47,8 +47,8 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="'/employees-list'"> List </a>
-      <a mat-list-item [routerLink]="'/create-employee'"> Create </a>
+      <a mat-list-item [routerLink]="'/event-list'"> List </a>
+      <a mat-list-item [routerLink]="'/event-create'"> Create </a>
       <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
     </mat-nav-list>
   </mat-sidenav>

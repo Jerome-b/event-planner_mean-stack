@@ -1,10 +1,10 @@
 const express = require("express");
 const path = require('path');
-const bodyParser = require("body-parser");
-const cors = require("cors");
 const mongoose = require('mongoose');
+const cors = require('cors');
+const bodyParser = require('body-parser');
 const dbConfig = require('./src/app/config/db.config');
-const db = require("./src/app/models");
+const db = require('./src/app/models');
 const Role = db.role;
 
 var corsOptions = {
@@ -14,7 +14,8 @@ var corsOptions = {
 // Connecting with mongo db
 mongoose.Promise = global.Promise;
 mongoose.connect(dbConfig.db, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useFindAndModify: false
 }).then(() => {
   console.log('Database sucessfully connected');
   initial();
@@ -24,6 +25,7 @@ error => {
   }
 )
 
+// Setting up port with express js
 const eventRoute = require('./src/app/routes/event.routes');
 const app = express();
 
@@ -31,9 +33,8 @@ const app = express();
 app.use(bodyParser.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors(corsOptions));
-
 app.use(express.static(path.join(__dirname, 'dist/eventplanner')));
 app.use('/', express.static(path.join(__dirname, 'dist/eventplanner')));
 app.use('/eventapi', eventRoute)
