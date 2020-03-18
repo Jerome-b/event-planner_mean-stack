@@ -73,14 +73,14 @@
           </div>
         </div>
 
-        <div class="form-group" formArrayName="tests">
-          <div *ngFor="let test of testControl.controls; let i=index" [formGroupName]="i">
-          <label for="inputTest">Test {{i+1}}</label>
-          <input class="form-control" type="text" formControlName="test">
-        </div>
-        <button type="button" (click)="addtest()">Add test</button>
-        </div>
+        <div class="form-group">
+         <div *ngFor="let test of testControl.controls; let i=index" [formGroupName]="i">
+          <label for="inputTest">Test</label>
+          <input class="form-control" type="text" formControlName="tests">
 
+        </div>
+       <button type="button" (click)="addtest()">Add test</button>
+        </div>
 
         <div class="form-group">
           <button class="btn btn-success btn-lg btn-block" type="submit">Add</button>

@@ -5,5 +5,5 @@ export class Event {
   drinkName: string;
   drinkSize: string;
   drinkQuantity: number;
-  test: string;
+  testnew: string;
 }

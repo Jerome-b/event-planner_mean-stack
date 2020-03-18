@@ -47,9 +47,9 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="'/event-list'"> List </a>
-      <a mat-list-item [routerLink]="'/event-create'"> Create </a>
-      <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a>
+      <a mat-list-item [routerLink]="'/event-list'" *ngIf="isLoggedIn">Event List </a>
+      <a mat-list-item [routerLink]="'/event-create'" *ngIf="!isLoggedIn"> Create Event </a>
+      <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>

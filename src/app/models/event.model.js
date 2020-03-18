@@ -24,7 +24,7 @@ let Event = new Schema({
    drinkQuantity: {
      type: Number
    },
-   test: {
+   testnew: {
      type: String
    }
 }, {
