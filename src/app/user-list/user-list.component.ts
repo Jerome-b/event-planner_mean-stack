@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-user-list',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  constructor() { }
+  users: User[];
+  searchCriteria: string;
 
-  ngOnInit(): void {
+  constructor(
+    private userService: AuthService
+  ) { }
+
+  ngOnInit() {
+    this.searchCriteria = '';
   }
-
 }

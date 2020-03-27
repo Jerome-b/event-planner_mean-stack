@@ -12,6 +12,7 @@ export class EventCreateComponent implements OnInit {
 
   submitted = false;
   eventForm: FormGroup;
+  test: FormArray;
   tests: FormGroup;
   drinkSizeSelection: any = ['fl.oz', 'L', 'mL'];
 
@@ -35,17 +36,10 @@ export class EventCreateComponent implements OnInit {
       drinkSize: ['', [Validators.required]],
       drinkSizeNumber: ['', [Validators.required]],
       drinkQuantity: ['', [Validators.required]],
-      tests: new FormArray([])
-    });
-  }
+      test: this.fb.array([this.fb.group({
+        blabla: '',
 
-  get testControl() {
-    return this.myForm.tests as FormArray;
-  }
-
-  testTask() {
-    return this.fb.group({
-      testnew: ['', Validators.required]
+      })])
     });
   }
 
@@ -56,17 +50,31 @@ export class EventCreateComponent implements OnInit {
     });
   }
 
-  /* getTests() {
-    return this.tests.controls;
+  /*createTest(): FormGroup {
+    return this.fb.group({
+      blabla: [''],
+      blabla2: ['']
+    });
   } */
+
+  /*addTest() {
+    this.test = this.eventForm.get('test') as FormArray;
+    this.test.push(this.createTest());
+  }*/
+  addblablaPoints() {
+    this.blablaPoints.push(this.fb.group({
+      blabla: '',
+
+    }));
+  }
+
+  get blablaPoints() {
+    return this.eventForm.get('test') as FormArray;
+  }
 
   // Getter to access form control
   get myForm() {
     return this.eventForm.controls;
-  }
-
-  addtest() {
-    this.testControl.push(this.testTask());
   }
 
   onSubmit() {

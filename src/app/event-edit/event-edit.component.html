@@ -78,6 +78,16 @@
             </div>
           </div>
 
+          <div formArrayName="test">
+            <div *ngFor="let item of blablaPoints.controls; let i=index" [formGroupName]="i">
+              <label>
+                Test
+                <input formControlName="blabla">
+
+              </label>
+            </div>
+          </div>
+
           <div class="form-group">
             <button class="btn btn-success btn-lg btn-block" type="submit">Edit</button>
           </div>

@@ -63,7 +63,7 @@
           </div>
         </div>
 
-        <!-- event drink qunaity -->
+        <!-- event drink quantity -->
         <div class="form-group">
           <label for="inputNumber3">Number of drinks</label>
           <input class="form-control" type="number" formControlName="drinkQuantity">
@@ -73,14 +73,27 @@
           </div>
         </div>
 
-        <div class="form-group">
-         <div *ngFor="let test of testControl.controls; let i=index" [formGroupName]="i">
-          <label for="inputTest">Test</label>
+
+<!-------//////////////////////////////////------------------------------------>
+
+        <div formArrayName="test">
+          <div *ngFor="let item of blablaPoints.controls; let i=index" [formGroupName]="i">
+            <label>
+              Test
+              <input formControlName="blabla">
+
+            </label>
+            <button type="button" (click)="addblablaPoints()">Add</button>
+          </div>
+        </div>
+        <!-- <div class="form-group">
+         <div *ngFor="let test of testControl.controls; let blabla=index" [formGroupName]="blabla">
+          <label for="inputTest">Blabla</label>
           <input class="form-control" type="text" formControlName="tests">
 
         </div>
-       <button type="button" (click)="addtest()">Add test</button>
-        </div>
+          <button type="button" (click)="addtest()">Add test</button>
+        </div> -->
 
         <div class="form-group">
           <button class="btn btn-success btn-lg btn-block" type="submit">Add</button>

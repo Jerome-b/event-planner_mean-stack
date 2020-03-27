@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Event } from '../models/event';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+// import { Event } from '../models/event';
 
 @Component({
   selector: 'app-event-edit',
@@ -13,7 +13,7 @@ export class EventEditComponent implements OnInit {
 
   submitted = false;
   editForm: FormGroup;
-  eventData: Event[];
+  // eventData: Event[];
   drinkSizeSelection: any = ['fl.oz', 'L', 'mL'];
 
   constructor(
@@ -34,7 +34,11 @@ export class EventEditComponent implements OnInit {
       drinkName: ['', [Validators.required]],
       drinkSize: ['', [Validators.required]],
       drinkSizeNumber: ['', [Validators.required]],
-      drinkQuantity: ['', [Validators.required]]
+      drinkQuantity: ['', [Validators.required]],
+      test: this.fb.array([this.fb.group({
+        blabla: '',
+
+      })])
     });
   }
 
@@ -50,6 +54,10 @@ export class EventEditComponent implements OnInit {
     return this.editForm.controls;
   }
 
+  get blablaPoints() {
+    return this.editForm.get('test') as FormArray;
+  }
+
   getEvent(id) {
     this.apiService.getEvent(id).subscribe(data => {
       this.editForm.setValue({
@@ -59,7 +67,10 @@ export class EventEditComponent implements OnInit {
         drinkName: data.drinkName,
         drinkSize: data.drinkSize,
         drinkSizeNumber: data.drinkSizeNumber,
-        drinkQuantity: data.drinkQuantity
+        drinkQuantity: data.drinkQuantity,
+        test: {
+          blabla: data.blabla
+        }
       });
     });
   }
@@ -72,7 +83,11 @@ export class EventEditComponent implements OnInit {
       drinkName: ['', [Validators.required]],
       drinkSize: ['', [Validators.required]],
       drinkSizeNumber: ['', [Validators.required]],
-      drinkQuantity: ['', [Validators.required]]
+      drinkQuantity: ['', [Validators.required]],
+      test: this.fb.array([this.fb.group({
+        blabla: '',
+
+      })])
     });
   }
 
