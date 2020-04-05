@@ -15,7 +15,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let event of Event; let i = index">
-        <th scope="row">{{event._id}}</th>
+        <th scope="row">{{event.name}}</th>
         <td>{{event.name}}</td>
         <td>{{event.description}}</td>
         <td>{{event.address}}</td>
@@ -25,6 +25,9 @@
           </span>
           <span class="delete" (click)="removeEvent(event, i)">
             <button type="button" class="btn btn-danger btn-sm">Delete</button>
+          </span>
+          <span class="detail" [routerLink]="['/event-detail/', event._id]">
+            <button type="button" class="btn btn-info btn-sm">Show Detail</button>
           </span>
         </td>
       </tr>
