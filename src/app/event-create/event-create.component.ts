@@ -1,7 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl, Form } from '@angular/forms';
 import { Router } from '@angular/router';
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-event-create',
@@ -12,64 +13,51 @@ export class EventCreateComponent implements OnInit {
 
   submitted = false;
   eventForm: FormGroup;
-  test: FormArray;
-  tests: FormGroup;
-  drinkSizeSelection: any = ['fl.oz', 'L', 'mL'];
+  drinkSizeSelection: any = ['fl.oz', 'L', 'mL', 'gal'];
+  foodSizeSelection: any = ['lbs', 'kg', 'g', 'oz', 'qt'];
+  time: string;
+  drink: FormArray;
+  food: FormArray;
+  object: FormArray;
 
   constructor(
     public fb: FormBuilder,
     private router: Router,
     private ngZone: NgZone,
-    private apiService: ApiService
+    private apiService: ApiService,
+    public fb2: FormBuilder,
+    public fb3: FormBuilder,
+    public fb4: FormBuilder,
   ) {
     this.mainForm();
    }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   mainForm() {
     this.eventForm = this.fb.group({
       name: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      date: ['', [Validators.required]],
+      time: ['', [Validators.required]],
       address: ['', [Validators.required]],
-      drinkName: ['', [Validators.required]],
-      drinkSize: ['', [Validators.required]],
-      drinkSizeNumber: ['', [Validators.required]],
-      drinkQuantity: ['', [Validators.required]],
-      test: this.fb.array([this.fb.group({
-        blabla: '',
-
-      })])
+      description: ['', [Validators.required]],
+      drink: this.fb.array([this.fb2.group({
+        drinkName: ['', [Validators.required]],
+        drinkSize: ['', [Validators.required]],
+        drinkSizeNumber: ['', [Validators.required]],
+        drinkQuantity: ['', [Validators.required]],
+      })]),
+      food: this.fb.array([this.fb3.group({
+        foodName: ['', [Validators.required]],
+        foodSize: ['', [Validators.required]],
+        foodSizeNumber: ['', [Validators.required]],
+        foodQuantity: ['', [Validators.required]]
+      })]),
+      object: this.fb.array([this.fb4.group({
+        objectName: ['', [Validators.required]],
+        objectQuantity: ['', [Validators.required]]
+      })]),
     });
-  }
-
-  // Choose size with select dropdown
-  updateEvent(e) {
-    this.eventForm.get('drinkSize').setValue(e, {
-      onlySelf: true
-    });
-  }
-
-  /*createTest(): FormGroup {
-    return this.fb.group({
-      blabla: [''],
-      blabla2: ['']
-    });
-  } */
-
-  /*addTest() {
-    this.test = this.eventForm.get('test') as FormArray;
-    this.test.push(this.createTest());
-  }*/
-  addblablaPoints() {
-    this.blablaPoints.push(this.fb.group({
-      blabla: '',
-
-    }));
-  }
-
-  get blablaPoints() {
-    return this.eventForm.get('test') as FormArray;
   }
 
   // Getter to access form control
@@ -77,13 +65,68 @@ export class EventCreateComponent implements OnInit {
     return this.eventForm.controls;
   }
 
+  get drinkForm() {
+    return this.eventForm.get('drink') as FormArray;
+  }
+
+  get foodForm() {
+    return this.eventForm.get('food') as FormArray;
+  }
+
+  get objectForm() {
+    return this.eventForm.get('object') as FormArray;
+  }
+
+  // Add form group dynamically
+  addDrink() {
+    this.drinkForm.push(this.fb2.group({
+      drinkName: '',
+      drinkSize: '',
+      drinkSizeNumber: '',
+      drinkQuantity: '',
+    }));
+  }
+
+  addFood() {
+    this.foodForm.push(this.fb3.group({
+      foodName: '',
+      foodSize: '',
+      foodSizeNumber: '',
+      foodQuantity: '',
+    }));
+  }
+
+  addObject() {
+    this.objectForm.push(this.fb4.group({
+      objectName: '',
+      objectQuantity: '',
+    }));
+  }
+
+  // Delete form group dynamically
+  delDrink(index: number) {
+    const arrayControl = this.eventForm.controls.drink as FormArray;
+    arrayControl.removeAt(index);
+  }
+
+  delFood(index: number) {
+    const arrayControl = this.eventForm.controls.food as FormArray;
+    arrayControl.removeAt(index);
+  }
+
+  delObject(index: number) {
+    const arrayControl = this.eventForm.controls.object as FormArray;
+    arrayControl.removeAt(index);
+  }
+
+
   onSubmit() {
     this.submitted = true;
     if (!this.eventForm.valid) {
       return false;
     } else {
       this.apiService.createEvent(this.eventForm.value).subscribe(
-        (res) => {
+        () => {
           console.log('Event successfully created!');
           this.ngZone.run(() => this.router.navigateByUrl('/event-list'));
         }, (error) => {
