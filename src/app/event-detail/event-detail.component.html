@@ -1,0 +1,142 @@
+<div class="row justify-content-center">
+  <div class="col-md-4 register-employee">
+    <!-- form card register -->
+    <div class="card-outline-secondary">
+      <div class="card-header">
+        <h3 class="mb-0">Details of {{name}} event</h3>
+      </div>
+
+      <div class="card-body">
+        <form [formGroup]="detailForm">
+
+          <!-- event name -->
+          <div class="form-group">
+            <label for="inputName">Name</label>
+            <input disabled class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
+              Name is required.
+            </div>
+          </div>
+
+          <!-- event date -->
+          <div class="form-group">
+            <label for="inputDate">Date</label>
+            <input disabled [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
+            formControlName="date" [ngClass]="{'is-invalid': submitted && myForm.date.errors }">
+            <mat-datepicker-toggle [for]="Datepicker"></mat-datepicker-toggle>
+            <mat-datepicker #Datepicker></mat-datepicker>
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.date.errors.required">
+              Date is required.
+            </div>
+          </div>
+
+          <!-- event time -->
+          <div class="form-group">
+            <label for="inputTime">Time</label>
+            <input disabled type="time" atp-time-picker formControlName="time" [ngClass]="{'is-invalid': submitted && myForm.time.errors}">
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.time.errors.required">
+              Time is required.
+            </div>
+          </div>
+
+          <!-- event description -->
+          <div class="form-group">
+            <label for="inputDescription3">Description</label>
+            <input disabled class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors.required">
+              Description is required.
+            </div>
+          </div>
+
+          <!-- event address -->
+          <div class="form-group">
+            <label for="inputAddress3">Address</label>
+            <input disabled class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
+            <!-- error -->
+            <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors.required">
+              Address is required.
+            </div>
+          </div>
+
+<!-------////////////////////////////////////---------->
+
+          <!-- Drink form group-->
+        <div formArrayName="drink">
+          <div *ngFor="let drink of drinkForm.controls; let i=index" [formGroupName]="i">
+            <div>
+              Drink #{{i+1}}
+            </div>
+              <label>
+              Drink Name #{{i+1}}
+              <input disabled class="form-control" type="text" formControlName="drinkName">
+              </label>
+              <label>
+              Drink size #{{i+1}}
+              <input disabled class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
+              </label>
+              <select disabled class="custom-select form-control" formControlName="drinkSize">
+              <option value="">Choose size unit...</option>
+              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
+              </option>
+            </select>
+              <label>
+                Number of drinks #{{i+1}}
+                <input disabled class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
+              </label>
+          </div>
+        </div>
+
+        <!-- Food form group -->
+        <div formArrayName="food">
+          <div *ngFor="let food of foodForm.controls; let i=index" [formGroupName]="i">
+            <div>
+              Food #{{i+1}}
+            </div>
+              <label>
+              Food Name #{{i+1}}
+              <input disabled class="form-control" type="text" formControlName="foodName">
+              </label>
+              <label>
+              Food size #{{i+1}}
+              <input disabled class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
+              </label>
+              <select disabled class="custom-select form-control"
+              formControlName="foodSize">
+              <option value="">Choose size unit...</option>
+              <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
+              </option>
+            </select>
+              <label>
+                Food Quantity #{{i+1}}
+                <input disabled class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
+              </label>
+
+          </div>
+        </div>
+
+        <!-- Object form group -->
+        <div formArrayName="object">
+          <div *ngFor="let object of objectForm.controls; let i=index" [formGroupName]="i">
+            <div>
+              Object #{{i+1}}
+            </div>
+              <label>
+              Object Name #{{i+1}}
+              <input disabled class="form-control" type="text" formControlName="objectName">
+              </label>
+              <label>
+                Object Quantity #{{i+1}}
+                <input disabled class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
+              </label>
+          </div>
+        </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
