@@ -12,6 +12,7 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventListComponent } from './event-list/event-list.component';
+import { EventDetailComponent } from './event-detail/event-detail.component';
 import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
@@ -26,7 +27,8 @@ const routes: Routes = [
   { path: 'event-create', component: EventCreateComponent },
   { path: 'event-list', component: EventListComponent },
   { path: 'event-edit/:id', component: EventEditComponent },
-  { path: 'user-list', component: UserListComponent }
+  { path: 'event-detail/:id', component: EventDetailComponent },
+  { path: 'user-list', component: UserListComponent },
 ];
 
 @NgModule({

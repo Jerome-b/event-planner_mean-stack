@@ -19,6 +19,7 @@ import { authInterceptorProviders } from './_helpers/auth.interceptor';
 import { RouterModule } from '@angular/router';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { EventEditComponent } from './event-edit/event-edit.component';
+import { UserListComponent } from './user-list/user-list.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { ApiService } from './_services/api.service';
 
@@ -27,7 +28,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { UserListComponent } from './user-list/user-list.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
+import { EventDetailComponent } from './event-detail/event-detail.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +49,7 @@ import { UserListComponent } from './user-list/user-list.component';
     EventEditComponent,
     EventListComponent,
     UserListComponent,
-
+    EventDetailComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +64,11 @@ import { UserListComponent } from './user-list/user-list.component';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    AmazingTimePickerModule,
   ],
 
   providers: [authInterceptorProviders, ApiService],
