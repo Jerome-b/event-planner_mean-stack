@@ -23,11 +23,17 @@ export class RegisterComponent implements OnInit {
         console.log(data);
         this.isSuccessful = true;
         this.isSignUpFailed = false;
+        this.reloadPage();
       },
       err => {
         this.errorMessage = err.error.message;
         this.isSignUpFailed = true;
       }
     );
+  }
+
+  reloadPage() {
+    // reload page after timeout
+    setTimeout(() => window.open('/home', '_self'), 1100);
   }
 }
