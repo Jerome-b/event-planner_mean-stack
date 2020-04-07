@@ -81,7 +81,10 @@
               <option value="">Choose size unit...</option>
               <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
               </option>
+              <input type="text" placeholder="Add unit">
             </select>
+            <!--<button (click)="addNewUnit(drinkSizeSelection.value)">Add new unit to selection</button>-->
+            <input type="text" placeholder="Add unit">
               <label>
                 Number of drinks #{{i+1}}
                 <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">

@@ -10,6 +10,8 @@ import { Event } from '../models/event';
   styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent implements OnInit {
+  drink: any;
+  food: any;
 
   constructor(
     public fb: FormBuilder,
@@ -61,6 +63,26 @@ export class EventDetailComponent implements OnInit {
     return this.detailForm.value.name;
   }
 
+  getValueFoodForm() {
+    for ( let i = 0; i < this.event.food.length; i++) {
+      const result1 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodName') as FormArray).value;
+      const result3 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodQuantity') as FormArray).value;
+      console.log('i = ' + i);
+      for ( let j = i + 1; j < this.event.food.length; j++) {
+        const result2 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodName') as FormArray).value;
+        const result4 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodQuantity') as FormArray).value;
+        console.log('j = ' + j);
+        if ( result1 === result2 ) {
+          const finalResult = result3 + result4;
+          console.log('result3 = ' + result3);
+          console.log('result4 = ' + result4);
+          console.log('final result = ' + finalResult);
+          console.log('---------------');
+        }
+      }
+    }
+  }
+
   getEvent(id) {
     this.apiService.getEvent(id).subscribe({
       next: (event: Event) => {
@@ -97,4 +119,5 @@ export class EventDetailComponent implements OnInit {
 
     this.setFormgroup();
   }
+
 }

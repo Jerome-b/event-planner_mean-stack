@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../_services/api.service';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-event-list',
@@ -9,13 +10,23 @@ import { ApiService } from '../_services/api.service';
 export class EventListComponent implements OnInit {
 
   Event: any = [];
+  isLoggedIn = false;
+  userId: string;
 
   constructor(
-    private apiService: ApiService) {
+    private apiService: ApiService,
+    private tokenStorageService: TokenStorageService) {
       this.readEvent();
     }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.userId = user.id;
+    }
+  }
 
   readEvent() {
     this.apiService.getEvents().subscribe((data) => {

@@ -1,6 +1,7 @@
 import { Time } from '@angular/common';
 
 export interface Event {
+  user: string;
   name: string;
   date: string;
   time: Time;

@@ -1,8 +1,8 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, FormArray, Validators, FormControl, Form } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { validateHorizontalPosition } from '@angular/cdk/overlay';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-event-create',
@@ -19,6 +19,8 @@ export class EventCreateComponent implements OnInit {
   drink: FormArray;
   food: FormArray;
   object: FormArray;
+  isLoggedIn = false;
+  userId: string;
 
   constructor(
     public fb: FormBuilder,
@@ -28,14 +30,21 @@ export class EventCreateComponent implements OnInit {
     public fb2: FormBuilder,
     public fb3: FormBuilder,
     public fb4: FormBuilder,
+    private tokenStorage: TokenStorageService,
   ) {
     this.mainForm();
-   }
+  }
 
   ngOnInit() { }
 
   mainForm() {
+    this.isLoggedIn = !!this.tokenStorage.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorage.getUser();
+      this.userId = user.id;
+    }
     this.eventForm = this.fb.group({
+      user: [this.userId],
       name: ['', [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
@@ -43,7 +52,7 @@ export class EventCreateComponent implements OnInit {
       description: ['', [Validators.required]],
       drink: this.fb.array([this.fb2.group({
         drinkName: ['', [Validators.required]],
-        drinkSize: ['', [Validators.required]],
+        drinkSize: ['fl.oz', [Validators.required]],
         drinkSizeNumber: ['', [Validators.required]],
         drinkQuantity: ['', [Validators.required]],
       })]),
@@ -81,7 +90,7 @@ export class EventCreateComponent implements OnInit {
   addDrink() {
     this.drinkForm.push(this.fb2.group({
       drinkName: '',
-      drinkSize: '',
+      drinkSize: 'fl.oz',
       drinkSizeNumber: '',
       drinkQuantity: '',
     }));
@@ -119,6 +128,9 @@ export class EventCreateComponent implements OnInit {
     arrayControl.removeAt(index);
   }
 
+  addNewUnit() {
+
+  }
 
   onSubmit() {
     this.submitted = true;
