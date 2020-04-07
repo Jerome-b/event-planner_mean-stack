@@ -7,13 +7,14 @@ import { TokenStorageService } from './_services/token-storage.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'CrudAppAuth';
+  title = 'EvPlanAuth';
   private roles: string[];
   isLoggedIn = false;
   showAdminBoard = false;
   showModeratorBoard = false;
   showUserBoard = false;
   username: string;
+  id: string;
 
   constructor(private tokenStorageService: TokenStorageService) {}
 

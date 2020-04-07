@@ -14,6 +14,7 @@ import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventListComponent } from './event-list/event-list.component';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { UserListComponent } from './user-list/user-list.component';
+import { MyeventListComponent } from './myevent-list/myevent-list.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'event-edit/:id', component: EventEditComponent },
   { path: 'event-detail/:id', component: EventDetailComponent },
   { path: 'user-list', component: UserListComponent },
+  { path: 'myevent-list', component: MyeventListComponent },
 ];
 
 @NgModule({

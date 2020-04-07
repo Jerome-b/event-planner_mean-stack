@@ -34,6 +34,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { EventDetailComponent } from './event-detail/event-detail.component';
+import { MyeventListComponent } from './myevent-list/myevent-list.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { EventDetailComponent } from './event-detail/event-detail.component';
     EventListComponent,
     UserListComponent,
     EventDetailComponent,
+    MyeventListComponent,
   ],
   imports: [
     BrowserModule,

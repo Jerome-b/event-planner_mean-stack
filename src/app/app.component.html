@@ -33,10 +33,10 @@
 
         <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
           <li class="nav-item">
-            <a href="/profile" class="nav-link" routerLink="profile">{{ username }}</a>
+            <a href="/profile" class="nav-link" routerLink="profile">Test</a>
           </li>
           <li class="nav-item">
-            <a href class="nav-link" (click)="logout()">LogOut</a>
+            <a href class="nav-link" (click)="logout()">Log out</a>
           </li>
         </ul>
       </nav>
@@ -51,6 +51,7 @@
       <a mat-list-item [routerLink]="'/event-create'" *ngIf="isLoggedIn"> Create Event </a>
       <a mat-list-item [routerLink]="'/user-list'" *ngIf="isLoggedIn"> User list </a>
       <a mat-list-item [routerLink]="'/test'"> Test </a>
+      <a mat-list-item [routerLink]="'/myevent-list'" *ngIf="isLoggedIn">My event List </a>
       <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
     </mat-nav-list>
   </mat-sidenav>
