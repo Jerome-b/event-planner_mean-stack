@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 // Define collection and schema
 let Event = new Schema({
+  owner: { type: String },
   name: { type: String },
   date: { type: String },
   time: { type: String},

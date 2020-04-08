@@ -163,6 +163,10 @@
       </div>
     </form>
 
+    <button *ngIf="!isSuccessful" class="btn btn-success btn-block" onclick="window.location.href='/login'">
+      Login
+    </button>
+
     <div class="alert alert-success" *ngIf="isSuccessful">
       Your registration is successful!
     </div>

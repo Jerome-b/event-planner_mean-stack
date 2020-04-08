@@ -1,3 +1,4 @@
+<ng-container *ngIf="isLoggedIn">
 <div class="row justify-content-center">
   <div class="col-md-4 register-employee">
 
@@ -10,7 +11,7 @@
           <label for="inputName">Name</label>
           <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
           <!-- error -->
-          <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors.required">
+          <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
             Name is required.
           </div>
         </div>
@@ -23,7 +24,7 @@
           <mat-datepicker-toggle [for]="Datepicker"></mat-datepicker-toggle>
           <mat-datepicker #Datepicker></mat-datepicker>
           <!-- error -->
-          <div class="invalid-feedback" *ngIf="submitted && myForm.date.errors.required">
+          <div class="invalid-feedback" *ngIf="submitted && myForm.date.errors?.required">
             Date is required.
           </div>
         </div>
@@ -33,7 +34,7 @@
           <label for="inputTime">Time</label>
           <input type="time" atp-time-picker formControlName="time" [ngClass]="{'is-invalid': submitted && myForm.time.errors}">
           <!-- error -->
-          <div class="invalid-feedback" *ngIf="submitted && myForm.time.errors.required">
+          <div class="invalid-feedback" *ngIf="submitted && myForm.time.errors?.required">
             Time is required.
           </div>
         </div>
@@ -43,7 +44,7 @@
           <label for="inputDescription3">Description</label>
           <input class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
           <!-- error -->
-          <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors.required">
+          <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors?.required">
             Description is required.
           </div>
         </div>
@@ -53,7 +54,7 @@
           <label for="inputAddress3">Address</label>
           <input class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
           <!-- error -->
-          <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors.required">
+          <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors?.required">
             Address is required.
           </div>
         </div>
@@ -81,10 +82,7 @@
               <option value="">Choose size unit...</option>
               <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
               </option>
-              <input type="text" placeholder="Add unit">
             </select>
-            <!--<button (click)="addNewUnit(drinkSizeSelection.value)">Add new unit to selection</button>-->
-            <input type="text" placeholder="Add unit">
               <label>
                 Number of drinks #{{i+1}}
                 <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
@@ -152,4 +150,5 @@
 
   <router-outlet></router-outlet>
 </div>
-
+</ng-container>
+<div *ngIf="!isLoggedIn"> Please log in first</div>

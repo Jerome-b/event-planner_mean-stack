@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../_services/api.service';
 import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Event } from '../models/event';
+import { TokenStorageService } from '../_services/token-storage.service';
+
 
 @Component({
   selector: 'app-event-detail',
@@ -12,12 +14,13 @@ import { Event } from '../models/event';
 export class EventDetailComponent implements OnInit {
   drink: any;
   food: any;
+  isLoggedIn = false;
 
   constructor(
     public fb: FormBuilder,
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private tokenStorageService: TokenStorageService,
   ) { }
 
   submitted = false;
@@ -27,6 +30,7 @@ export class EventDetailComponent implements OnInit {
   event: Event;
 
   ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.getEvent(id);
     this.detailForm = this.fb.group({

@@ -1,3 +1,4 @@
+<ng-container *ngIf="isLoggedIn">
 <div class="container">
 
   <!-- No data message -->
@@ -15,7 +16,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let event of Event; let i = index">
-        <ng-container *ngIf="event.user == userId">
+        <ng-container *ngIf="event.owner == userId">
         <th scope="row">{{event.name}}</th>
         <td>{{event.name}}</td>
         <td>{{event.description}}</td>
@@ -38,4 +39,6 @@
 
   <router-outlet></router-outlet>
 </div>
+</ng-container>
+<div *ngIf="!isLoggedIn"> Please log in first</div>
 

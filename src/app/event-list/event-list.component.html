@@ -1,3 +1,4 @@
+<ng-container *ngIf="isLoggedIn">
 <div class="container">
 
   <!-- No data message -->
@@ -20,7 +21,7 @@
         <td>{{event.description}}</td>
         <td>{{event.address}}</td>
         <td class="text-center edit-block">
-          <ng-container *ngIf="event.user == userId">
+          <ng-container *ngIf="event.owner == userId">
           <span class="edit" [routerLink]="['/event-edit/', event._id]">
             <button type="button" class="btn btn-success btn-sm">Edit</button>
           </span>
@@ -38,3 +39,5 @@
 
   <router-outlet></router-outlet>
 </div>
+</ng-container>
+<div *ngIf="!isLoggedIn"> Please log in first</div>

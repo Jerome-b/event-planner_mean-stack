@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { Event } from '../models/event';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 
 @Component({
@@ -12,6 +13,9 @@ import { Event } from '../models/event';
 })
 export class EventEditComponent implements OnInit {
 
+  userId: string;
+  isLoggedIn = false;
+
   constructor(
     public fb: FormBuilder,
     public fb2: FormBuilder,
@@ -19,7 +23,8 @@ export class EventEditComponent implements OnInit {
     public fb4: FormBuilder,
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
-    private router: Router
+    private router: Router,
+    private tokenStorageService: TokenStorageService,
   ) { }
 
   submitted = false;
@@ -29,9 +34,11 @@ export class EventEditComponent implements OnInit {
   event: Event;
 
   ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.getEvent(id);
     this.editForm = this.fb.group({
+      owner: [''],
       name: ['', [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
@@ -41,6 +48,18 @@ export class EventEditComponent implements OnInit {
       food: this.fb.array([]),
       object: this.fb.array([]),
     });
+  }
+
+  // Get owner value for ngIf comparison in view
+  get owner() {
+    return this.editForm.controls.owner.value;
+  }
+
+  // Get user id value for ngIf comparison in view
+  get idUser() {
+    const user = this.tokenStorageService.getUser();
+    this.userId = user.id;
+    return this.userId;
   }
 
   // Getter to access form control
@@ -129,6 +148,7 @@ export class EventEditComponent implements OnInit {
   // Display the event form to edit
   displayEvent(event: Event): void {
     this.editForm.patchValue({
+      owner: event.owner,
       name: event.name,
       date: event.date,
       time: event.time,

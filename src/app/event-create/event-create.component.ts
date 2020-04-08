@@ -30,21 +30,18 @@ export class EventCreateComponent implements OnInit {
     public fb2: FormBuilder,
     public fb3: FormBuilder,
     public fb4: FormBuilder,
-    private tokenStorage: TokenStorageService,
+    private tokenStorageService: TokenStorageService,
   ) {
     this.mainForm();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+   }
 
   mainForm() {
-    this.isLoggedIn = !!this.tokenStorage.getToken();
-    if (this.isLoggedIn) {
-      const user = this.tokenStorage.getUser();
-      this.userId = user.id;
-    }
     this.eventForm = this.fb.group({
-      user: [this.userId],
+      owner: [''],
       name: ['', [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
@@ -133,6 +130,9 @@ export class EventCreateComponent implements OnInit {
   }
 
   onSubmit() {
+    this.eventForm.patchValue({
+      owner: this.userId,
+    });
     this.submitted = true;
     if (!this.eventForm.valid) {
       return false;

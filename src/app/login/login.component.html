@@ -67,7 +67,9 @@
         </div>
       </div>
     </form>
-
+    <button *ngIf="!isLoggedIn" class="btn btn-danger btn-block" onclick="window.location.href='/register'">
+      Sign up
+    </button>
     <div class="alert alert-success" *ngIf="isLoggedIn">
       Successfully logged in as <b>{{ username }}</b> !
     </div>
