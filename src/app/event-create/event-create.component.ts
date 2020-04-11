@@ -40,8 +40,13 @@ export class EventCreateComponent implements OnInit {
    }
 
   mainForm() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.userId = user.id;
+    }
     this.eventForm = this.fb.group({
-      owner: [''],
+      owner: [this.userId, [Validators.nullValidator]],
       name: ['', [Validators.required]],
       date: ['', [Validators.required]],
       time: ['', [Validators.required]],
