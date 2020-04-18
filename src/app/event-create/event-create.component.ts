@@ -22,6 +22,7 @@ export class EventCreateComponent implements OnInit {
   object: FormArray;
   isLoggedIn = false;
   userId: string;
+  userEmail: string;
 
   constructor(
     public fb: FormBuilder,
@@ -47,6 +48,7 @@ export class EventCreateComponent implements OnInit {
     if (this.isLoggedIn) {
       const user = this.tokenStorageService.getUser();
       this.userId = user.id;
+      this.userEmail = user.email;
     }
     this.eventForm = this.fb.group({
       owner: [this.userId, [Validators.nullValidator]],
@@ -72,7 +74,7 @@ export class EventCreateComponent implements OnInit {
         objectQuantity: ['', [Validators.required]]
       })]),
       access: this.fb.array([this.fb5.group({
-        user: ['', [Validators.nullValidator]],
+        user: [this.userEmail, [Validators.nullValidator]],
       })]),
     });
   }

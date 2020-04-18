@@ -66,8 +66,16 @@ export class AccessComponent implements OnInit {
       next: (event: Event) => {
         this.event = event;
         this.getAccess();
+        this.displayEvent(event);
         }
     });
+  }
+
+  displayEvent(event: Event): void {
+    this.accessForm.patchValue({
+      owner: event.owner,
+    });
+
   }
 
   // getEvent without getAccess for giveAccess()
@@ -126,6 +134,8 @@ export class AccessComponent implements OnInit {
   }
 
   onSubmit() {
+    // owner value remains the same
+    this.accessForm.controls.owner = this.accessForm.controls.owner.value;
     this.submitted = true;
     if (!this.accessForm.valid) {
       return false;

@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'event-detail/:id', component: EventDetailComponent },
   { path: 'user-list', component: UserListComponent },
   { path: 'myevent-list', component: MyeventListComponent },
-  { path: 'event-edit/:id/' + 'access', component: AccessComponent }
+  { path: 'event-edit/:id/access', component: AccessComponent }
 ];
 
 @NgModule({
