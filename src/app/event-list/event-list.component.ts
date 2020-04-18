@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { ApiService } from '../_services/api.service';
 import { TokenStorageService } from '../_services/token-storage.service';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
