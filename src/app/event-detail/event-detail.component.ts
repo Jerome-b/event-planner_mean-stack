@@ -12,6 +12,7 @@ import { TokenStorageService } from '../_services/token-storage.service';
   styleUrls: ['./event-detail.component.css']
 })
 export class EventDetailComponent implements OnInit {
+
   drink: any;
   food: any;
   isLoggedIn = false;
