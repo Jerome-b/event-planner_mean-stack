@@ -1,12 +1,15 @@
 <ng-container *ngIf="isLoggedIn">
-<ng-container *ngIf="owner == idUser">
+<ng-container *ngIf="owner == idUser || accessAllowed">
+
 <div class="row justify-content-center">
   <div class="col-md-4 register-employee">
     <!-- form card register -->
     <div class="card-outline-secondary">
       <div class="card-header">
-        <h3 class="mb-0">Edit Event</h3>
+        <h3 class="mb-0">Edit {{ name }} event</h3>
       </div>
+
+      <button [disabled]="disabledd" (click)="changepage()">Manage access</button>
 
       <div class="card-body">
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
@@ -14,7 +17,7 @@
           <!-- event name -->
           <div class="form-group">
             <label for="inputName">Name</label>
-            <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
+            <input [readOnly]="disabledd" class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
               Name is required.
@@ -24,9 +27,9 @@
           <!-- event date -->
           <div class="form-group">
             <label for="inputDate">Date</label>
-            <input [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
+            <input [disabled]="disabledd" [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
             formControlName="date" [ngClass]="{'is-invalid': submitted && myForm.date.errors }">
-            <mat-datepicker-toggle [for]="Datepicker"></mat-datepicker-toggle>
+            <mat-datepicker-toggle [disabled]="disabledd" [for]="Datepicker"></mat-datepicker-toggle>
             <mat-datepicker #Datepicker></mat-datepicker>
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.date.errors?.required">
@@ -37,7 +40,7 @@
           <!-- event time -->
           <div class="form-group">
             <label for="inputTime">Time</label>
-            <input type="time" atp-time-picker formControlName="time" [ngClass]="{'is-invalid': submitted && myForm.time.errors}">
+            <input [attr.disabled]="disabledd?'':null" type="time" atp-time-picker formControlName="time" [ngClass]="{'is-invalid': submitted && myForm.time.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.time.errors?.required">
               Time is required.
@@ -47,7 +50,7 @@
           <!-- event description -->
           <div class="form-group">
             <label for="inputDescription3">Description</label>
-            <input class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
+            <input [readOnly]="disabledd" class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors?.required">
               Description is required.
@@ -57,93 +60,171 @@
           <!-- event address -->
           <div class="form-group">
             <label for="inputAddress3">Address</label>
-            <input class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
+            <input [readOnly]="disabledd" class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors?.required">
               Address is required.
             </div>
           </div>
 
-<!-------////////////////////////////////////---------->
+<!-------------------/////////////////// Dynamic form ////////////////////--------------------->
 
           <!-- Drink form group-->
         <div formArrayName="drink">
           <button type="button" (click)="addDrink()">Add drink</button>
           <div *ngFor="let drink of drinkForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Drink #{{i+1}}
-            </div>
-              <label>
-              Drink Name #{{i+1}}
-              <input class="form-control" type="text" formControlName="drinkName">
-              </label>
-              <label>
-              Drink size #{{i+1}}
-              <input class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
-              </label>
-              <select class="custom-select form-control" formControlName="drinkSize">
-              <option value="">Choose size unit...</option>
-              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
-              </option>
-            </select>
-              <label>
-                Number of drinks #{{i+1}}
-                <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
-              </label>
+          <!-- Drink form for existing ones -->
+            <ng-container *ngIf="i < drinkLength">
+              <div>
+                Drink #{{i+1}}
+              </div>
+                <label>
+                Drink Name #{{i+1}}
+                <input [readOnly]="disabledd" class="form-control" type="text" formControlName="drinkName">
+                </label>
+                <label>
+                Drink size #{{i+1}}
+                <input [readOnly]="disabledd" class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
+                </label>
+                <select [attr.disabled]="disabledd?'':null" class="custom-select form-control" formControlName="drinkSize">
+                <option value="">Choose size unit...</option>
+                <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
+                </option>
+              </select>
+                <label>
+                  Number of drinks #{{i+1}}
+                  <input [readOnly]="disabledd" class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
+                </label>
+              <button [disabled]="disabledd" type="button" (click)="delDrink(i)">Delete drink</button>
+            </ng-container>
 
-            <button type="button" (click)="delDrink(i)">Delete drink</button>
+          <!-- drink form for new created ones -->
+            <ng-container *ngIf="i >= drinkLength">
+              <div>
+                Drink #{{i+1}}
+              </div>
+                <label>
+                Drink Name #{{i+1}}
+                <input class="form-control" type="text" formControlName="drinkName">
+                </label>
+                <label>
+                Drink size #{{i+1}}
+                <input class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
+                </label>
+                <select  class="custom-select form-control" formControlName="drinkSize">
+                <option value="">Choose size unit...</option>
+                <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
+                </option>
+              </select>
+                <label>
+                  Number of drinks #{{i+1}}
+                  <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
+                </label>
+              <button type="button" (click)="delDrink(i)">Delete drink</button>
+            </ng-container>
           </div>
         </div>
+<!-------- End of Drink form group --------->
 
         <!-- Food form group -->
         <div formArrayName="food">
           <button type="button" (click)="addFood()">Add food</button>
           <div *ngFor="let food of foodForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Food #{{i+1}}
-            </div>
-              <label>
-              Food Name #{{i+1}}
-              <input class="form-control" type="text" formControlName="foodName">
-              </label>
-              <label>
-              Food size #{{i+1}}
-              <input class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
-              </label>
-              <select class="custom-select form-control"
-              formControlName="foodSize">
-              <option value="">Choose size unit...</option>
-              <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
-              </option>
-            </select>
-              <label>
-                Food Quantity #{{i+1}}
-                <input class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
-              </label>
+            <!-- Food form for existing ones -->
+            <ng-container *ngIf="i < foodLength">
+              <div>
+                Food #{{i+1}}
+              </div>
+                <label>
+                Food Name #{{i+1}}
+                <input [readOnly]="disabledd" class="form-control" type="text" formControlName="foodName">
+                </label>
+                <label>
+                Food size #{{i+1}}
+                <input [readOnly]="disabledd" class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
+                </label>
+                <select [attr.disabled]="disabledd?'':null" class="custom-select form-control"
+                formControlName="foodSize">
+                <option value="">Choose size unit...</option>
+                <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
+                </option>
+              </select>
+                <label>
+                  Food Quantity #{{i+1}}
+                  <input [readOnly]="disabledd" class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
+                </label>
 
-            <button type="button" (click)="delFood(i)">Delete food</button>
+              <button [disabled]="disabledd" type="button" (click)="delFood(i)">Delete food</button>
+            </ng-container>
+
+            <!-- Food form for new created ones -->
+            <ng-container *ngIf="i >= foodLength">
+              <div>
+                Food #{{i+1}}
+              </div>
+                <label>
+                Food Name #{{i+1}}
+                <input class="form-control" type="text" formControlName="foodName">
+                </label>
+                <label>
+                Food size #{{i+1}}
+                <input class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
+                </label>
+                <select class="custom-select form-control" formControlName="foodSize">
+                <option value="">Choose size unit...</option>
+                <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
+                </option>
+              </select>
+                <label>
+                  Food Quantity #{{i+1}}
+                  <input class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
+                </label>
+              <button type="button" (click)="delFood(i)">Delete food</button>
+            </ng-container>
           </div>
         </div>
+<!-------- End of Food form group --------->
 
         <!-- Object form group -->
         <div formArrayName="object">
           <button type="button" (click)="addObject()">Add object</button>
           <div *ngFor="let object of objectForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Object #{{i+1}}
-            </div>
-              <label>
-              Object Name #{{i+1}}
-              <input class="form-control" type="text" formControlName="objectName">
-              </label>
-              <label>
-                Object Quantity #{{i+1}}
-                <input class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
-              </label>
+            <!-- Object form for existing ones -->
+            <ng-container *ngIf="i < objectLength">
+              <div>
+                Object #{{i+1}}
+              </div>
+                <label>
+                Object Name #{{i+1}}
+                <input [readOnly]="disabledd" class="form-control" type="text" formControlName="objectName">
+                </label>
+                <label>
+                  Object Quantity #{{i+1}}
+                  <input [readOnly]="disabledd" class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
+                </label>
 
-            <button type="button" (click)="delObject(i)">Delete object</button>
+              <button [disabled]="disabledd" type="button" (click)="delObject(i)">Delete object</button>
+            </ng-container>
+
+            <!-- Object form for new created ones -->
+            <ng-container *ngIf="i >= objectLength">
+              <div>
+                Object #{{i+1}}
+              </div>
+                <label>
+                Object Name #{{i+1}}
+                <input class="form-control" type="text" formControlName="objectName">
+                </label>
+                <label>
+                  Object Quantity #{{i+1}}
+                  <input class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
+                </label>
+
+              <button type="button" (click)="delObject(i)">Delete object</button>
+          </ng-container>
           </div>
         </div>
+<!-------- End of Object form group --------->
 
           <div class="form-group">
             <button class="btn btn-success btn-lg btn-block" type="submit">Edit</button>
@@ -156,6 +237,6 @@
 </div>
 </ng-container>
 
-<div *ngIf="owner != idUser"> You have no access to this event!</div>
+<div *ngIf="owner != idUser && accessAllowed == false">You have no access to this event!</div>
 <div *ngIf="!isLoggedIn"> Please log in first</div>
 </ng-container>

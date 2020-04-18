@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Event } from '../models/event';
 import { TokenStorageService } from '../_services/token-storage.service';
+
 
 
 @Component({
@@ -15,6 +16,13 @@ export class EventEditComponent implements OnInit {
 
   userId: string;
   isLoggedIn = false;
+  accessAllowed = false;
+  func: any;
+  disabledd = false;
+  clicked = true;
+  drinkLength: any;
+  foodLength: any;
+  objectLength: any;
 
   constructor(
     public fb: FormBuilder,
@@ -39,20 +47,25 @@ export class EventEditComponent implements OnInit {
     this.getEvent(id);
     this.editForm = this.fb.group({
       owner: [''],
-      name: ['', [Validators.required]],
-      date: ['', [Validators.required]],
+      name: [{value: '', disabled: this.disabledd}, [Validators.required]],
+      date: [{value: '', disabled: this.disabledd}, [Validators.required]],
       time: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      address: [{value: '', disabled: this.disabledd}, [Validators.required]],
+      description: [{value: '', disabled: this.disabledd}, [Validators.required]],
       drink: this.fb.array([]),
       food: this.fb.array([]),
       object: this.fb.array([]),
+      access: this.fb.array([]),
     });
   }
 
   // Get owner value for ngIf comparison in view
   get owner() {
     return this.editForm.controls.owner.value;
+  }
+
+  get name() {
+    return this.editForm.value.name;
   }
 
   // Get user id value for ngIf comparison in view
@@ -79,11 +92,32 @@ export class EventEditComponent implements OnInit {
     return this.editForm.get('object') as FormArray;
   }
 
+  get accessForm() {
+    return this.editForm.get('access') as FormArray;
+  }
+
   getEvent(id) {
     this.apiService.getEvent(id).subscribe({
       next: (event: Event) => {
         this.event = event;
         this.displayEvent(event);
+        this.disable();
+        this.length();
+        let i: any;
+        // allow access only for invited users
+        for (i = 0; i < this.accessForm.length; i++) {
+          const control = this.accessForm.controls[i].get('user');
+          if (this.userId === control.value) {
+            this.accessAllowed = true;
+          }
+        }
+    }});
+  }
+
+  getEventbis(id) {
+    this.apiService.getEvent(id).subscribe({
+      next: (event: Event) => {
+        this.event = event;
     }});
   }
 
@@ -113,6 +147,17 @@ export class EventEditComponent implements OnInit {
     }));
   }
 
+  length() {
+    this.drinkLength = this.drinkForm.length;
+    this.foodLength = this.foodForm.length;
+    this.objectLength = this.objectForm.length;
+  }
+
+  changepage() {
+    const id = this.actRoute.snapshot.paramMap.get('id');
+    this.router.navigateByUrl('/event-edit/' + id + '/access');
+  }
+
   // Delete form group dynamically
   delDrink(index: number) {
     const arrayControl = this.editForm.controls.drink as FormArray;
@@ -129,20 +174,11 @@ export class EventEditComponent implements OnInit {
     arrayControl.removeAt(index);
   }
 
-  // Retrieve the 3 form group: drink, food and object
-  setFormgroup() {
-    const control = this.editForm.get('drink') as FormArray;
-    const control2 = this.editForm.get('food') as FormArray;
-    const control3 = this.editForm.get('object') as FormArray;
-    this.event.drink.forEach(test => {
-      control.push(this.fb.group(test));
-    });
-    this.event.food.forEach(test => {
-      control2.push(this.fb.group(test));
-    });
-    this.event.object.forEach(test => {
-      control3.push(this.fb.group(test));
-    });
+  // prevent edit from non-owner
+  disable() {
+    if (this.userId !== this.owner) {
+      this.disabledd = true;
+    }
   }
 
   // Display the event form to edit
@@ -159,7 +195,29 @@ export class EventEditComponent implements OnInit {
     this.setFormgroup();
   }
 
+  // Retrieve the form group: drink, food, object and access
+  setFormgroup() {
+    const control = this.editForm.get('drink') as FormArray;
+    const control2 = this.editForm.get('food') as FormArray;
+    const control3 = this.editForm.get('object') as FormArray;
+    const control4 = this.editForm.get('access') as FormArray;
+    this.event.drink.forEach(a => {
+      control.push(this.fb.group(a));
+    });
+    this.event.food.forEach(a => {
+      control2.push(this.fb.group(a));
+    });
+    this.event.object.forEach(a => {
+      control3.push(this.fb.group(a));
+    });
+    this.event.access.forEach(a => {
+      control4.push(this.fb.group(a));
+    });
+  }
+
   onSubmit() {
+    // owner value remains the same
+    this.editForm.controls.owner = this.editForm.controls.owner.value;
     this.submitted = true;
     if (!this.editForm.valid) {
       return false;

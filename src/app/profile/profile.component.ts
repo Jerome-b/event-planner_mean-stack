@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +9,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  isLoggedIn = false;
+  userId: string;
+
+  constructor(
+    private permissionsService: NgxPermissionsService,
+    private tokenStorageService: TokenStorageService
+  ) { }
 
   ngOnInit() {
+    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    if (this.isLoggedIn) {
+      const user = this.tokenStorageService.getUser();
+      this.userId = user.id;
+    }
+    const perm = ['ADMIN', this.userId];
+    this.permissionsService.loadPermissions(perm);
+
   }
+
 
 }

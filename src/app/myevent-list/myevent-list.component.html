@@ -9,7 +9,6 @@
     <thead class="table-success">
       <tr>
         <th scope="col">Event Name</th>
-        <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Address</th>
       </tr>
@@ -18,7 +17,6 @@
       <tr *ngFor="let event of Event; let i = index">
         <ng-container *ngIf="event.owner == userId">
         <th scope="row">{{event.name}}</th>
-        <td>{{event.name}}</td>
         <td>{{event.description}}</td>
         <td>{{event.address}}</td>
         <td class="text-center edit-block">

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray, Form } from '@angular/forms';
 import { Event } from '../models/event';
 import { TokenStorageService } from '../_services/token-storage.service';
 
@@ -34,11 +34,11 @@ export class EventDetailComponent implements OnInit {
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.getEvent(id);
     this.detailForm = this.fb.group({
-      name: ['', [Validators.required]],
-      date: ['', [Validators.required]],
+      name: [{value: '', disabled: true}, [Validators.required]],
+      date: [{value: '', disabled: true}, [Validators.required]],
       time: ['', [Validators.required]],
-      address: ['', [Validators.required]],
-      description: ['', [Validators.required]],
+      address: [{value: '', disabled: true}, [Validators.required]],
+      description: [{value: '', disabled: true}, [Validators.required]],
       drink: this.fb.array([]),
       food: this.fb.array([]),
       object: this.fb.array([]),
@@ -68,6 +68,7 @@ export class EventDetailComponent implements OnInit {
   }
 
   getValueFoodForm() {
+    // attention value 1
     for ( let i = 0; i < this.event.food.length; i++) {
       const result1 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodName') as FormArray).value;
       const result3 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodQuantity') as FormArray).value;

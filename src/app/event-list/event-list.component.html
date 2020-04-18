@@ -1,6 +1,5 @@
 <ng-container *ngIf="isLoggedIn">
 <div class="container">
-
   <!-- No data message -->
   <p *ngIf="Event.length <= 0" class="no-data text-center">There is no event added yet!</p>
 
@@ -21,17 +20,21 @@
         <td>{{event.description}}</td>
         <td>{{event.address}}</td>
         <td class="text-center edit-block">
-          <ng-container *ngIf="event.owner == userId">
+          <!-- Call function to check for edit button access -->
+            {{controls()}}
+            <ng-container *ngIf="userId == event.owner || allow == true">
           <span class="edit" [routerLink]="['/event-edit/', event._id]">
             <button type="button" class="btn btn-success btn-sm">Edit</button>
           </span>
+            </ng-container>
           <span class="delete" (click)="removeEvent(event, i)">
             <button type="button" class="btn btn-danger btn-sm">Delete</button>
           </span>
-          </ng-container>
+
           <span class="detail" [routerLink]="['/event-detail/', event._id]">
             <button type="button" class="btn btn-info btn-sm">Show Detail</button>
           </span>
+
         </td>
       </tr>
     </tbody>

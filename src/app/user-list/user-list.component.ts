@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
-import { User } from '../models/user.model';
+import { UserService } from '../_services/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-list',
@@ -9,14 +9,25 @@ import { User } from '../models/user.model';
 })
 export class UserListComponent implements OnInit {
 
-  users: User[];
-  searchCriteria: string;
+  User: any = [];
 
   constructor(
-    private userService: AuthService
-  ) { }
+    private userService: UserService,
+    private location: Location
+  ) {
+    this.readUser();
+  }
 
-  ngOnInit() {
-    this.searchCriteria = '';
+  ngOnInit() { }
+
+  readUser() {
+    this.userService.getUsers().subscribe((data) => {
+      this.User = data;
+    });
+  }
+
+  // back function for back button
+  goBack() {
+    this.location.back();
   }
 }

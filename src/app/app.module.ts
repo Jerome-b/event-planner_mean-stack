@@ -10,9 +10,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { BoardAdminComponent } from './board-admin/board-admin.component';
-import { BoardUserComponent } from './board-user/board-user.component';
-import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { ProfileComponent } from './profile/profile.component';
 
 import { authInterceptorProviders } from './_helpers/auth.interceptor';
@@ -35,6 +32,9 @@ import { MatInputModule } from '@angular/material/input';
 import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { MyeventListComponent } from './myevent-list/myevent-list.component';
+import { AccessComponent } from './access/access.component';
+
+import { NgxPermissionsModule } from 'ngx-permissions';
 
 @NgModule({
   declarations: [
@@ -42,9 +42,6 @@ import { MyeventListComponent } from './myevent-list/myevent-list.component';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    BoardAdminComponent,
-    BoardUserComponent,
-    BoardModeratorComponent,
     ProfileComponent,
     EventCreateComponent,
     EventEditComponent,
@@ -52,6 +49,7 @@ import { MyeventListComponent } from './myevent-list/myevent-list.component';
     UserListComponent,
     EventDetailComponent,
     MyeventListComponent,
+    AccessComponent,
   ],
   imports: [
     BrowserModule,
@@ -71,6 +69,7 @@ import { MyeventListComponent } from './myevent-list/myevent-list.component';
     MatFormFieldModule,
     MatInputModule,
     AmazingTimePickerModule,
+    NgxPermissionsModule.forRoot(),
   ],
 
   providers: [authInterceptorProviders, ApiService],

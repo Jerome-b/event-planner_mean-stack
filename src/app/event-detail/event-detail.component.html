@@ -13,7 +13,7 @@
           <!-- event name -->
           <div class="form-group">
             <label for="inputName">Name</label>
-            <input disabled class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
+            <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
               Name is required.
@@ -23,7 +23,7 @@
           <!-- event date -->
           <div class="form-group">
             <label for="inputDate">Date</label>
-            <input disabled [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
+            <input [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
             formControlName="date" [ngClass]="{'is-invalid': submitted && myForm.date.errors }">
             <mat-datepicker-toggle [for]="Datepicker"></mat-datepicker-toggle>
             <mat-datepicker #Datepicker></mat-datepicker>
@@ -46,7 +46,7 @@
           <!-- event description -->
           <div class="form-group">
             <label for="inputDescription3">Description</label>
-            <input disabled class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
+            <input class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors?.required">
               Description is required.
@@ -56,7 +56,7 @@
           <!-- event address -->
           <div class="form-group">
             <label for="inputAddress3">Address</label>
-            <input disabled class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
+            <input class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
             <!-- error -->
             <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors?.required">
               Address is required.

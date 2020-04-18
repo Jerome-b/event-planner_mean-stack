@@ -10,4 +10,5 @@ export interface Event {
   drink: [];
   food: [];
   object: [];
+  access: [];
 }

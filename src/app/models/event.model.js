@@ -12,6 +12,7 @@ let Event = new Schema({
   },
   {
     collection: 'events',
+    // allow dynamic change of the model
     strict: false
   }
 )

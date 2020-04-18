@@ -2,6 +2,7 @@ import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../_services/api.service';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -30,14 +31,16 @@ export class EventCreateComponent implements OnInit {
     public fb2: FormBuilder,
     public fb3: FormBuilder,
     public fb4: FormBuilder,
+    public fb5: FormBuilder,
     private tokenStorageService: TokenStorageService,
+    private location: Location,
   ) {
     this.mainForm();
   }
 
   ngOnInit() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
-   }
+  }
 
   mainForm() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -67,6 +70,9 @@ export class EventCreateComponent implements OnInit {
       object: this.fb.array([this.fb4.group({
         objectName: ['', [Validators.required]],
         objectQuantity: ['', [Validators.required]]
+      })]),
+      access: this.fb.array([this.fb5.group({
+        user: ['', [Validators.nullValidator]],
       })]),
     });
   }
@@ -130,9 +136,11 @@ export class EventCreateComponent implements OnInit {
     arrayControl.removeAt(index);
   }
 
-  addNewUnit() {
-
+  // back function for back button
+  goBack() {
+    this.location.back();
   }
+
 
   onSubmit() {
     this.eventForm.patchValue({
