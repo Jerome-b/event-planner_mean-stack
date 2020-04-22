@@ -74,7 +74,6 @@ export class AccessComponent implements OnInit, AfterContentChecked {
         this.event = event;
         this.getAccess();
         this.displayEvent(event);
-        console.log('ghel' + this.userId);
         }
     });
   }
