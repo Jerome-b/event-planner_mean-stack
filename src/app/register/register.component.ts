@@ -34,6 +34,6 @@ export class RegisterComponent implements OnInit {
 
   reloadPage() {
     // reload page after timeout
-    setTimeout(() => window.open('/home', '_self'), 1100);
+    setTimeout(() => window.open('/login', '_self'), 1100);
   }
 }
