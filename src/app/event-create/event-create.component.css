@@ -1,1 +1,31 @@
+.bi.bi-x-circle-fill {
+  position: relative;
+  top: 10px;
+  left: 23px;
+  cursor: pointer;
+}
+
+.bi.bi-plus {
+  position: relative;
+  left: 10px;
+  cursor: pointer;
+}
+
+.bi.bi-trash {
+  cursor: pointer;
+}
+
+.card-body {
+  background-color: #25B0FF;
+}
+
+.card-header {
+  background-color: rgb(129, 186, 248);
+}
+
+.custom-select {
+  position: relative;
+  width: 10rem;
+  bottom: 2pt;
+}
 

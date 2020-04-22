@@ -49,6 +49,8 @@ export class EventCreateComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.userId = user.id;
       this.userEmail = user.email;
+      console.log(this.userEmail);
+      console.log(this.userId);
     }
     this.eventForm = this.fb.group({
       owner: [this.userId, [Validators.nullValidator]],
@@ -57,22 +59,25 @@ export class EventCreateComponent implements OnInit {
       time: ['', [Validators.required]],
       address: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      drink: this.fb.array([this.fb2.group({
+      drinkNeeded: this.fb.array([this.fb2.group({
         drinkName: ['', [Validators.required]],
         drinkSize: ['fl.oz', [Validators.required]],
         drinkSizeNumber: ['', [Validators.required]],
         drinkQuantity: ['', [Validators.required]],
       })]),
-      food: this.fb.array([this.fb3.group({
+      drinkAdded: this.fb.array([]),
+      foodNeeded: this.fb.array([this.fb3.group({
         foodName: ['', [Validators.required]],
-        foodSize: ['', [Validators.required]],
+        foodSize: ['lbs', [Validators.required]],
         foodSizeNumber: ['', [Validators.required]],
         foodQuantity: ['', [Validators.required]]
       })]),
-      object: this.fb.array([this.fb4.group({
+      foodAdded: this.fb.array([]),
+      objectNeeded: this.fb.array([this.fb4.group({
         objectName: ['', [Validators.required]],
         objectQuantity: ['', [Validators.required]]
       })]),
+      objectAdded: this.fb.array([]),
       access: this.fb.array([this.fb5.group({
         user: [this.userEmail, [Validators.nullValidator]],
       })]),
@@ -85,15 +90,15 @@ export class EventCreateComponent implements OnInit {
   }
 
   get drinkForm() {
-    return this.eventForm.get('drink') as FormArray;
+    return this.eventForm.get('drinkNeeded') as FormArray;
   }
 
   get foodForm() {
-    return this.eventForm.get('food') as FormArray;
+    return this.eventForm.get('foodNeeded') as FormArray;
   }
 
   get objectForm() {
-    return this.eventForm.get('object') as FormArray;
+    return this.eventForm.get('objectNeeded') as FormArray;
   }
 
   // Add form group dynamically
@@ -109,7 +114,7 @@ export class EventCreateComponent implements OnInit {
   addFood() {
     this.foodForm.push(this.fb3.group({
       foodName: '',
-      foodSize: '',
+      foodSize: 'lbs',
       foodSizeNumber: '',
       foodQuantity: '',
     }));
@@ -124,17 +129,17 @@ export class EventCreateComponent implements OnInit {
 
   // Delete form group dynamically
   delDrink(index: number) {
-    const arrayControl = this.eventForm.controls.drink as FormArray;
+    const arrayControl = this.eventForm.controls.drinkNeeded as FormArray;
     arrayControl.removeAt(index);
   }
 
   delFood(index: number) {
-    const arrayControl = this.eventForm.controls.food as FormArray;
+    const arrayControl = this.eventForm.controls.foodNeeded as FormArray;
     arrayControl.removeAt(index);
   }
 
   delObject(index: number) {
-    const arrayControl = this.eventForm.controls.object as FormArray;
+    const arrayControl = this.eventForm.controls.objectNeeded as FormArray;
     arrayControl.removeAt(index);
   }
 

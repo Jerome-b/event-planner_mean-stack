@@ -1,18 +1,26 @@
 <ng-container *ngIf="isLoggedIn">
-<div class="row justify-content-center">
-  <div class="col-md-4 register-employee">
+
+<p>
+  <svg [routerLink]="'/home'" class="bi bi-x-circle-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-4.146-3.146a.5.5 0 00-.708-.708L8 7.293 4.854 4.146a.5.5 0 10-.708.708L7.293 8l-3.147 3.146a.5.5 0 00.708.708L8 8.707l3.146 3.147a.5.5 0 00.708-.708L8.707 8l3.147-3.146z" clip-rule="evenodd"/>
+  </svg>
+</p>
+
+<div class="row">
+  <div class="col-lg ml-4 mb-4 mr-4 register-event">
     <div class="card-header">
       <h3 class="mb-0">Create a new event</h3>
     </div>
-    <svg (click)="goBack()" class="bi bi-x-circle-fill" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path fill-rule="evenodd" d="M16 8A8 8 0 110 8a8 8 0 0116 0zm-4.146-3.146a.5.5 0 00-.708-.708L8 7.293 4.854 4.146a.5.5 0 10-.708.708L7.293 8l-3.147 3.146a.5.5 0 00.708.708L8 8.707l3.146 3.147a.5.5 0 00.708-.708L8.707 8l3.147-3.146z" clip-rule="evenodd"/>
-    </svg>
+
+
     <!-- form card register -->
     <div class="card-body">
+
       <form [formGroup]="eventForm" (ngSubmit)="onSubmit()">
 
         <!-- event name -->
         <div class="form-group">
+
           <label for="inputName">Name</label>
           <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
           <!-- error -->
@@ -67,93 +75,124 @@
 <!-------////////////////////////////////////---------->
 
         <!-- Drink form group-->
-        <div formArrayName="drink">
+        <div formArrayName="drinkNeeded">
           <button type="button" (click)="addDrink()">Add drink</button>
-          <div *ngFor="let drink of drinkForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Drink #{{i+1}}
+          <div style="border-style:solid; border-width: 2px" *ngFor="let drink of drinkForm.controls; let i=index" [formGroupName]="i">
+            <div class="ml-2">
+              Drink Needed #{{i+1}}
+              <svg (click)="addDrink()" class="bi bi-plus" width="9mm" height="9mm" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
+              </svg>
             </div>
-              <label>
+
+            <label class="ml-2">
               Drink Name #{{i+1}}
               <input class="form-control" type="text" formControlName="drinkName">
-              </label>
+            </label>
 
-              <label>
+            <label class="ml-2">
               Drink size #{{i+1}}
               <input class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
-              </label>
-              <select class="custom-select form-control"
-              formControlName="drinkSize">
+            </label>
+
+            <select class="custom-select form-control ml-2"
+            formControlName="drinkSize">
               <option value="">Choose size unit...</option>
-              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
-              </option>
+              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}</option>
             </select>
-              <label>
-                Number of drinks #{{i+1}}
-                <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
-              </label>
-            <button type="button" (click)="delDrink(i)">Delete drink</button>
+
+            <label class="ml-2">
+              Number of drinks #{{i+1}}
+              <input class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
+            </label>
+
+            <svg (click)="delDrink(i)" class="bi bi-trash ml-4" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+            </svg>
           </div>
         </div>
 
         <!-- Food form group -->
-        <div formArrayName="food">
+        <div formArrayName="foodNeeded" class="mt-3">
           <button type="button" (click)="addFood()">Add food</button>
-          <div *ngFor="let food of foodForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Food #{{i+1}}
+          <div style="border-style:solid; border-width: 2px" *ngFor="let food of foodForm.controls; let i=index" [formGroupName]="i">
+            <div class="ml-2">
+              Food Needed #{{i+1}}
+              <svg (click)="addFood()" class="bi bi-plus" width="9mm" height="9mm" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
+              </svg>
             </div>
-              <label>
+              <label class="ml-2">
               Food Name #{{i+1}}
               <input class="form-control" type="text" formControlName="foodName">
               </label>
-              <label>
+              <label class="ml-2">
               Food size #{{i+1}}
               <input class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
               </label>
-              <select class="custom-select form-control"
+              <select class="custom-select form-control ml-2"
               formControlName="foodSize">
               <option value="">Choose size unit...</option>
               <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
               </option>
             </select>
-              <label>
+              <label class="ml-2">
                 Food Quantity #{{i+1}}
                 <input class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
               </label>
 
-            <button type="button" (click)="delFood(i)">Delete food</button>
+            <svg (click)="delFood(i)" class="bi bi-trash ml-4" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+            </svg>
           </div>
         </div>
 
         <!-- Object form group -->
-        <div formArrayName="object">
+        <div formArrayName="objectNeeded" class="mt-3">
           <button type="button" (click)="addObject()">Add object</button>
-          <div *ngFor="let object of objectForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Object #{{i+1}}
+          <div style="border-style:solid; border-width: 2px" *ngFor="let object of objectForm.controls; let i=index" [formGroupName]="i">
+            <div class="ml-2">
+              Object Needed #{{i+1}}
+              <svg (click)="addObject()" class="bi bi-plus" width="9mm" height="9mm" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd" d="M8 3.5a.5.5 0 01.5.5v4a.5.5 0 01-.5.5H4a.5.5 0 010-1h3.5V4a.5.5 0 01.5-.5z" clip-rule="evenodd"/>
+                <path fill-rule="evenodd" d="M7.5 8a.5.5 0 01.5-.5h4a.5.5 0 010 1H8.5V12a.5.5 0 01-1 0V8z" clip-rule="evenodd"/>
+              </svg>
             </div>
-              <label>
+              <label class="ml-2">
               Object Name #{{i+1}}
               <input class="form-control" type="text" formControlName="objectName">
               </label>
-              <label>
+              <label class="ml-2">
                 Object Quantity #{{i+1}}
                 <input class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
               </label>
 
-            <button type="button" (click)="delObject(i)">Delete object</button>
+            <svg (click)="delObject(i)" class="bi bi-trash ml-4" width="2em" height="2em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 5.5A.5.5 0 016 6v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm2.5 0a.5.5 0 01.5.5v6a.5.5 0 01-1 0V6a.5.5 0 01.5-.5zm3 .5a.5.5 0 00-1 0v6a.5.5 0 001 0V6z"/>
+              <path fill-rule="evenodd" d="M14.5 3a1 1 0 01-1 1H13v9a2 2 0 01-2 2H5a2 2 0 01-2-2V4h-.5a1 1 0 01-1-1V2a1 1 0 011-1H6a1 1 0 011-1h2a1 1 0 011 1h3.5a1 1 0 011 1v1zM4.118 4L4 4.059V13a1 1 0 001 1h6a1 1 0 001-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z" clip-rule="evenodd"/>
+            </svg>
           </div>
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-lg btn-block" type="submit">Create event</button>
+          <button class="btn btn-dark btn-block mt-4" type="submit">Create event</button>
         </div>
       </form>
-    </div>
+
+  <!-- second column
+  <div class="column">
+    dwadwaf
+  </div> -->
+
   </div>
+</div>
 
   <router-outlet></router-outlet>
 </div>
 </ng-container>
+
 <div *ngIf="!isLoggedIn"> Please log in first</div>
