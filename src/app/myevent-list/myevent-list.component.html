@@ -2,7 +2,10 @@
 <div class="container">
 
   <!-- No data message -->
-  <p *ngIf="Event.length <= 0" class="no-data text-center">There is no event added yet!</p>
+  <ng-container *ngIf="Event.length <= 0" class="no-data text-center">
+    <p>There is no event added yet!</p>
+    <button type="button" class="btn btn-primary" [routerLink]="'/event-create'">Add event</button>
+  </ng-container>
 
   <!-- Event list -->
   <table class="table table-bordered" *ngIf="Event.length > 0">
@@ -29,6 +32,9 @@
           <span class="detail" [routerLink]="['/event-detail/', event._id]">
             <button type="button" class="btn btn-info btn-sm">Show Detail</button>
           </span>
+          <span class="edit" [routerLink]="['/event-edit/', event._id, 'access']">
+              <button type="button" class="btn btn-warning btn-sm">Give Access</button>
+            </span>
         </td>
       </ng-container>
       </tr>
