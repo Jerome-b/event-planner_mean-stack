@@ -7,8 +7,11 @@ export interface Event {
   time: Time;
   address: string;
   description: string;
-  drink: [];
-  food: [];
-  object: [];
+  drinkNeeded: [];
+  drinkAdded: [];
+  foodNeeded: [];
+  foodAdded: [];
+  objectNeeded: [];
+  objectAdded: [];
   access: [];
 }
