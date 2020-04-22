@@ -1,7 +1,10 @@
 <ng-container *ngIf="isLoggedIn">
 <div class="container">
   <!-- No data message -->
-  <p *ngIf="Event.length <= 0" class="no-data text-center">There is no event added yet!</p>
+  <ng-container *ngIf="Event.length <= 0" class="no-data text-center">
+    <p>There is no event added yet!</p>
+    <button type="button" class="btn btn-primary" [routerLink]="'/event-create'">Add event</button>
+  </ng-container>
 
   <!-- Event list -->
   <table class="table table-bordered" *ngIf="Event.length > 0">
@@ -27,9 +30,11 @@
             <button type="button" class="btn btn-success btn-sm">Edit</button>
           </span>
             </ng-container>
+            <ng-container *ngIf="userId == event.owner">
           <span class="delete" (click)="removeEvent(event, i)">
             <button type="button" class="btn btn-danger btn-sm">Delete</button>
           </span>
+            </ng-container>
 
           <span class="detail" [routerLink]="['/event-detail/', event._id]">
             <button type="button" class="btn btn-info btn-sm">Show Detail</button>
