@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { TokenStorageService } from '../_services/token-storage.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class ProfileComponent implements OnInit {
   userId: string;
 
   constructor(
-    private permissionsService: NgxPermissionsService,
     private tokenStorageService: TokenStorageService
   ) { }
 
@@ -23,9 +21,6 @@ export class ProfileComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.userId = user.id;
     }
-    const perm = ['ADMIN', this.userId];
-    this.permissionsService.loadPermissions(perm);
-
   }
 
 
