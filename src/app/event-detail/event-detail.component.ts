@@ -65,16 +65,16 @@ export class EventDetailComponent implements OnInit {
 
   // Get name value
   get name() {
-    return this.detailForm.value.name;
+    return this.detailForm.controls.name.value;
   }
 
   getValueFoodForm() {
     // attention value 1
-    for ( let i = 0; i < this.event.food.length; i++) {
+    for ( let i = 0; i < this.event.foodNeeded.length; i++) {
       const result1 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodName') as FormArray).value;
       const result3 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodQuantity') as FormArray).value;
       console.log('i = ' + i);
-      for ( let j = i + 1; j < this.event.food.length; j++) {
+      for ( let j = i + 1; j < this.event.foodNeeded.length; j++) {
         const result2 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodName') as FormArray).value;
         const result4 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodQuantity') as FormArray).value;
         console.log('j = ' + j);
@@ -102,13 +102,13 @@ export class EventDetailComponent implements OnInit {
     const control = this.detailForm.get('drink') as FormArray;
     const control2 = this.detailForm.get('food') as FormArray;
     const control3 = this.detailForm.get('object') as FormArray;
-    this.event.drink.forEach(test => {
+    this.event.drinkNeeded.forEach(test => {
       control.push(this.fb.group(test));
     });
-    this.event.food.forEach(test => {
+    this.event.foodNeeded.forEach(test => {
       control2.push(this.fb.group(test));
     });
-    this.event.object.forEach(test => {
+    this.event.objectNeeded.forEach(test => {
       control3.push(this.fb.group(test));
     });
   }
