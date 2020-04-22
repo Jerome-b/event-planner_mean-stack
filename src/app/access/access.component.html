@@ -13,7 +13,20 @@
           <td>{{user.email}}</td>
           <td class="text-center edit-block">
             <span class="add">
-              <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Add access</button>
+              {{controls()}}
+              <ng-container *ngIf="!accessButton && userAccess != loggedEmail">
+                <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Give access</button>
+              </ng-container>
+              <ng-container *ngIf="accessButton && userAccess != loggedEmail">
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove access</button>
+              </ng-container>
+
+              <ng-container *ngIf="loggedEmail == userAccess">
+                <button disabled type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Give access</button>
+              </ng-container>
+              <ng-container *ngIf="loggedEmail == userAccess">
+                <button disabled type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove access</button>
+              </ng-container>
             </span>
           </td>
         </tr>

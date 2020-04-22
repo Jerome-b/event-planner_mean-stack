@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterContentChecked } from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../_services/api.service';
@@ -12,14 +12,20 @@ import { TokenStorageService } from '../_services/token-storage.service';
   templateUrl: './access.component.html',
   styleUrls: ['./access.component.css']
 })
-export class AccessComponent implements OnInit {
+export class AccessComponent implements OnInit, AfterContentChecked {
 
   userId: string;
+  loggedEmail: string;
   User: any = [];
-  userid: any = [];
+  userEmail: any = [];
   event: Event;
   accessExist = false;
   isLoggedIn = false;
+  accessButton = false;
+  blabla: any;
+  userAccess: any;
+  i = 0;
+  j = 1;
 
   constructor(
     private userService: UserService,
@@ -30,21 +36,28 @@ export class AccessComponent implements OnInit {
     private apiService: ApiService,
     private tokenStorageService: TokenStorageService,
   ) {
-    this.readUser();
+
   }
 
   accessForm: FormGroup;
   submitted = false;
 
-
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    const user = this.tokenStorageService.getUser();
+    this.loggedEmail = user.email;
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.getEvent(id);
     this.accessForm = this.fb.group({
       owner: [''],
       access: this.fb.array([]),
     });
+    this.readUser();
+  }
+
+  ngAfterContentChecked() {
+    this.i = 0;
+    this.j = 1;
   }
 
   get myAccess() {
@@ -55,18 +68,13 @@ export class AccessComponent implements OnInit {
     return this.accessForm.controls.owner.value;
   }
 
-  get idUser() {
-    const user = this.tokenStorageService.getUser();
-    this.userId = user.id;
-    return this.userId;
-  }
-
   getEvent(id) {
     this.apiService.getEvent(id).subscribe({
       next: (event: Event) => {
         this.event = event;
         this.getAccess();
         this.displayEvent(event);
+        console.log('ghel' + this.userId);
         }
     });
   }
@@ -99,7 +107,29 @@ export class AccessComponent implements OnInit {
   readUser() {
     this.userService.getUsers().subscribe((data) => {
       this.User = data;
-      this.userid = this.User.map(res => res.email);
+      this.userEmail = this.User.map(res => res.email);
+    });
+  }
+
+  // check if user already has access to the current event
+  buttonAccess() {
+    for ( let i = 0; i < this.event.access.length; i++) {
+      const result = ( (this.accessForm.get('access') as FormArray).controls[i].get('user') as FormArray).value;
+      if (result === this.userAccess) {
+        this.accessButton = true;
+        break;
+      }
+    }
+  }
+
+  controls() {
+    this.accessButton = false;
+    // slice to only loop over 1 object at once
+    this.User.slice(this.i, this.j).forEach((user) => {
+      this.userAccess = user.email;
+      this.i = this.i + 1;
+      this.j = this.j + 1;
+      this.buttonAccess();
     });
   }
 
@@ -116,7 +146,7 @@ export class AccessComponent implements OnInit {
     // if the user has already access, no action performed
     for ( let i = 0; i < this.event.access.length; i++) {
       const result = ( (this.accessForm.get('access') as FormArray).controls[i].get('user') as FormArray).value;
-      if (result === this.userid[index]) {
+      if (result === this.userEmail[index]) {
         this.accessExist = false;
         console.log('User already has access!');
         break;
@@ -126,10 +156,30 @@ export class AccessComponent implements OnInit {
     }
     if (this.accessExist) {
       this.myAccess.push(this.fb.group({
-      user: this.userid[index]
-      })
-    );
-      this.onSubmit();
+      user: this.userEmail[index]
+      }));
+      this.apiService.updateEvent(id, this.accessForm.value)
+        .subscribe(res => {
+          console.log('Access given successfully!');
+      });
+    }
+  }
+
+  removeAccess(index) {
+    // call the service again to update
+    const id = this.actRoute.snapshot.paramMap.get('id');
+    this.getEventbis(id);
+    // if the user has already access, no action performed
+    for ( let i = 0; i < this.event.access.length; i++) {
+      const result = ( (this.accessForm.get('access') as FormArray).controls[i].get('user') as FormArray).value;
+      if (result === this.userEmail[index]) {
+        this.myAccess.removeAt(this.myAccess.value.findIndex(access => access.user === result));
+        this.apiService.updateEvent(id, this.accessForm.value)
+        .subscribe(res => {
+          console.log('Access removed!');
+      });
+        break;
+      }
     }
   }
 
