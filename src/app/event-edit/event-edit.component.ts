@@ -126,6 +126,7 @@ export class EventEditComponent implements OnInit {
             this.accessAllowed = true;
           }
         }
+        console.log(this.userEmail);
     }});
   }
 
@@ -199,7 +200,7 @@ export class EventEditComponent implements OnInit {
     this.objectLength = this.objectForm.length;
   }
 
-  changepage() {
+  accesspage() {
     const id = this.actRoute.snapshot.paramMap.get('id');
     this.router.navigateByUrl('/event-edit/' + id + '/access');
   }

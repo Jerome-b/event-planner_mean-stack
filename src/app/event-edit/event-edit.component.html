@@ -2,13 +2,13 @@
 <ng-container *ngIf="owner == idUser || accessAllowed">
 
 <div class="row">
-  <div class="col-lg ml-4 mb-4 mr-4 register-event">
+  <div class="col-lg ml-4 mb-4 mr-4 edit-event">
     <!-- form card register -->
       <div class="card-header">
         <h3 class="mb-0">Edit {{ name }} event</h3>
       </div>
 
-      <button class="mt-2 mb-2" [disabled]="disabledd" (click)="changepage()">Manage access</button>
+      <button class="mt-2 mb-2" [disabled]="disabledd" (click)="accesspage()">Manage access</button>
 
       <div class="card-body">
         <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
