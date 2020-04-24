@@ -16,12 +16,17 @@ export class EventDetailComponent implements OnInit {
   drink: any;
   food: any;
   isLoggedIn = false;
+  userId: any;
+  userEmail: string;
+  accessAllowed = false;
 
   constructor(
     public fb: FormBuilder,
+    public fb2: FormBuilder,
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
     private tokenStorageService: TokenStorageService,
+    private router: Router,
   ) { }
 
   submitted = false;
@@ -33,16 +38,23 @@ export class EventDetailComponent implements OnInit {
   ngOnInit() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
     const id = this.actRoute.snapshot.paramMap.get('id');
+    const user = this.tokenStorageService.getUser();
+    this.userEmail = user.email;
+    this.userId = user.username;
     this.getEvent(id);
     this.detailForm = this.fb.group({
       name: [{value: '', disabled: true}, [Validators.required]],
       date: [{value: '', disabled: true}, [Validators.required]],
       time: ['', [Validators.required]],
-      address: [{value: '', disabled: true}, [Validators.required]],
+      address: ['', [Validators.required]],
       description: [{value: '', disabled: true}, [Validators.required]],
-      drink: this.fb.array([]),
-      food: this.fb.array([]),
-      object: this.fb.array([]),
+      drinkNeeded: this.fb.array([]),
+      drinkAdded: this.fb.array([]),
+      foodNeeded: this.fb.array([]),
+      foodAdded: this.fb.array([]),
+      objectNeeded: this.fb.array([]),
+      objectAdded: this.fb.array([]),
+      access: this.fb.array([]),
     });
   }
 
@@ -52,15 +64,31 @@ export class EventDetailComponent implements OnInit {
   }
 
   get drinkForm() {
-    return this.detailForm.get('drink') as FormArray;
+    return this.detailForm.get('drinkNeeded') as FormArray;
+  }
+
+  get drinkBroughtForm() {
+    return this.detailForm.get('drinkAdded') as FormArray;
   }
 
   get foodForm() {
-    return this.detailForm.get('food') as FormArray;
+    return this.detailForm.get('foodNeeded') as FormArray;
+  }
+
+  get foodBroughtForm() {
+    return this.detailForm.get('foodAdded') as FormArray;
   }
 
   get objectForm() {
-    return this.detailForm.get('object') as FormArray;
+    return this.detailForm.get('objectNeeded') as FormArray;
+  }
+
+  get objectBroughtForm() {
+    return this.detailForm.get('objectAdded') as FormArray;
+  }
+
+  get accessForm() {
+    return this.detailForm.get('access') as FormArray;
   }
 
   // Get name value
@@ -68,22 +96,34 @@ export class EventDetailComponent implements OnInit {
     return this.detailForm.controls.name.value;
   }
 
+  get date() {
+    return this.detailForm.controls.date.value;
+  }
+
+  get address() {
+    return this.detailForm.controls.address.value;
+  }
+
+
   getValueFoodForm() {
     // attention value 1
-    for ( let i = 0; i < this.event.foodNeeded.length; i++) {
-      const result1 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodName') as FormArray).value;
-      const result3 = ( (this.detailForm.get('food') as FormArray).controls[i].get('foodQuantity') as FormArray).value;
-      console.log('i = ' + i);
-      for ( let j = i + 1; j < this.event.foodNeeded.length; j++) {
-        const result2 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodName') as FormArray).value;
-        const result4 = ( (this.detailForm.get('food') as FormArray).controls[j].get('foodQuantity') as FormArray).value;
-        console.log('j = ' + j);
-        if ( result1 === result2 ) {
-          const finalResult = result3 + result4;
-          console.log('result3 = ' + result3);
-          console.log('result4 = ' + result4);
-          console.log('final result = ' + finalResult);
-          console.log('---------------');
+    for ( let i = 0; i < this.event.drinkAdded.length; i++) {
+      const addedDrinkName = ((this.detailForm.get('drinkAdded') as FormArray).controls[i].get('drinkName') as FormArray).value;
+      const addedDrinkQuantity = ((this.detailForm.get('drinkAdded') as FormArray).controls[i].get('drinkQuantity') as FormArray).value;
+      const addedDrinkSize = ((this.detailForm.get('drinkAdded') as FormArray).controls[i].get('drinkSize') as FormArray).value;
+      // tslint:disable-next-line: max-line-length
+      const addedDrinkSizeNumber = ((this.detailForm.get('drinkAdded') as FormArray).controls[i].get('drinkSizeNumber') as FormArray).value;
+      for ( let j = i + 1; j < this.event.drinkAdded.length; j++) {
+        const addedDrinkName2 = ((this.detailForm.get('drinkAdded') as FormArray).controls[j].get('drinkName') as FormArray).value;
+        const addedDrinkQuantity2 = ((this.detailForm.get('drinkAdded') as FormArray).controls[j].get('drinkQuantity') as FormArray).value;
+        const addedDrinkSize2 = ((this.detailForm.get('drinkAdded') as FormArray).controls[j].get('drinkSize') as FormArray).value;
+        // tslint:disable-next-line: max-line-length
+        const addedDrinkSizeNumber2 = ((this.detailForm.get('drinkAdded') as FormArray).controls[j].get('drinkSizeNumber') as FormArray).value;
+        if (  addedDrinkName === addedDrinkName2 &&
+              addedDrinkSizeNumber === addedDrinkSizeNumber2 &&
+              addedDrinkSize === addedDrinkSize2 ) {
+            const finalResult = addedDrinkQuantity2 + addedDrinkQuantity;
+            console.log('result:' + finalResult);
         }
       }
     }
@@ -94,22 +134,46 @@ export class EventDetailComponent implements OnInit {
       next: (event: Event) => {
         this.event = event;
         this.displayEvent(event);
+        let i: any;
+        for (i = 0; i < this.accessForm.length; i++) {
+          const control = this.accessForm.controls[i].get('user');
+          if (this.userEmail === control.value) {
+            this.accessAllowed = true;
+          }
+        }
+        console.log(this.userEmail);
     }});
   }
 
   // Retrieve the 3 form group: drink, food and object
   setFormgroup() {
-    const control = this.detailForm.get('drink') as FormArray;
-    const control2 = this.detailForm.get('food') as FormArray;
-    const control3 = this.detailForm.get('object') as FormArray;
-    this.event.drinkNeeded.forEach(test => {
-      control.push(this.fb.group(test));
+    const control = this.detailForm.get('drinkNeeded') as FormArray;
+    const control2 = this.detailForm.get('foodNeeded') as FormArray;
+    const control3 = this.detailForm.get('objectNeeded') as FormArray;
+    const control4 = this.detailForm.get('access') as FormArray;
+    const control5 = this.detailForm.get('drinkAdded') as FormArray;
+    const control6 = this.detailForm.get('foodAdded') as FormArray;
+    const control7 = this.detailForm.get('objectAdded') as FormArray;
+    this.event.drinkNeeded.forEach(a => {
+      control.push(this.fb.group(a));
     });
-    this.event.foodNeeded.forEach(test => {
-      control2.push(this.fb.group(test));
+    this.event.foodNeeded.forEach(a => {
+      control2.push(this.fb.group(a));
     });
-    this.event.objectNeeded.forEach(test => {
-      control3.push(this.fb.group(test));
+    this.event.objectNeeded.forEach(a => {
+      control3.push(this.fb.group(a));
+    });
+    this.event.access.forEach(a => {
+      control4.push(this.fb.group(a));
+    });
+    this.event.drinkAdded.forEach(a => {
+      control5.push(this.fb.group(a));
+    });
+    this.event.foodAdded.forEach(a => {
+      control6.push(this.fb.group(a));
+    });
+    this.event.objectAdded.forEach(a => {
+      control7.push(this.fb.group(a));
     });
   }
 
@@ -125,5 +189,105 @@ export class EventDetailComponent implements OnInit {
 
     this.setFormgroup();
   }
+
+  accessEdit() {
+    const id = this.actRoute.snapshot.paramMap.get('id');
+    this.router.navigateByUrl('/event-edit/' + id);
+  }
+
+/////////////////// return form value ////////////////////////////
+
+//// needed by owner ////
+////// drink ////////
+  drinkName(index) {
+      const result = ( (this.detailForm.get('drinkNeeded') as FormArray).controls[index].get('drinkName') as FormArray).value;
+      return result;
+  }
+
+  drinkSize(index) {
+    const result = ( (this.detailForm.get('drinkNeeded') as FormArray).controls[index].get('drinkSizeNumber') as FormArray).value;
+    const result2 = ( (this.detailForm.get('drinkNeeded') as FormArray).controls[index].get('drinkSize') as FormArray).value;
+    return [result + result2];
+  }
+
+  drinkQuantity(index) {
+      const result = ( (this.detailForm.get('drinkNeeded') as FormArray).controls[index].get('drinkQuantity') as FormArray).value;
+      return result;
+  }
+
+////// food ////////
+  foodName(index) {
+    const result = ( (this.detailForm.get('foodNeeded') as FormArray).controls[index].get('foodName') as FormArray).value;
+    return result;
+  }
+
+  foodSize(index) {
+    const result = ( (this.detailForm.get('foodNeeded') as FormArray).controls[index].get('foodSizeNumber') as FormArray).value;
+    const result2 = ( (this.detailForm.get('foodNeeded') as FormArray).controls[index].get('foodSize') as FormArray).value;
+    return [result + result2];
+  }
+
+  foodQuantity(index) {
+      const result = ( (this.detailForm.get('foodNeeded') as FormArray).controls[index].get('foodQuantity') as FormArray).value;
+      return result;
+  }
+
+////// object ////////
+  objectName(index) {
+    const result = ( (this.detailForm.get('objectNeeded') as FormArray).controls[index].get('objectName') as FormArray).value;
+    return result;
+  }
+
+  objectQuantity(index) {
+      const result = ( (this.detailForm.get('objectNeeded') as FormArray).controls[index].get('objectQuantity') as FormArray).value;
+      return result;
+  }
+
+//// brought by guests ////
+////// drink ////////
+  drinkBroughtName(index) {
+    const result = ( (this.detailForm.get('drinkAdded') as FormArray).controls[index].get('drinkName') as FormArray).value;
+    return result;
+  }
+
+  drinkBroughtSize(index) {
+  const result = ( (this.detailForm.get('drinkAdded') as FormArray).controls[index].get('drinkSizeNumber') as FormArray).value;
+  const result2 = ( (this.detailForm.get('drinkAdded') as FormArray).controls[index].get('drinkSize') as FormArray).value;
+  return [result + result2];
+  }
+
+  drinkBroughtQuantity(index) {
+    const result = ( (this.detailForm.get('drinkAdded') as FormArray).controls[index].get('drinkQuantity') as FormArray).value;
+    return result;
+  }
+
+  ////// food ////////
+  foodBroughtName(index) {
+  const result = ( (this.detailForm.get('foodAdded') as FormArray).controls[index].get('foodName') as FormArray).value;
+  return result;
+  }
+
+  foodBroughtSize(index) {
+  const result = ( (this.detailForm.get('foodAdded') as FormArray).controls[index].get('foodSizeNumber') as FormArray).value;
+  const result2 = ( (this.detailForm.get('foodAdded') as FormArray).controls[index].get('foodSize') as FormArray).value;
+  return [result + result2];
+  }
+
+  foodBroughtQuantity(index) {
+    const result = ( (this.detailForm.get('foodAdded') as FormArray).controls[index].get('foodQuantity') as FormArray).value;
+    return result;
+  }
+
+  ////// object ////////
+  objectBroughtName(index) {
+  const result = ( (this.detailForm.get('objectAdded') as FormArray).controls[index].get('objectName') as FormArray).value;
+  return result;
+  }
+
+  objectBroughtQuantity(index) {
+    const result = ( (this.detailForm.get('objectAdded') as FormArray).controls[index].get('objectQuantity') as FormArray).value;
+    return result;
+  }
+////////////////////////
 
 }

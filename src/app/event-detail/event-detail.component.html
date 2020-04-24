@@ -1,150 +1,234 @@
 <ng-container *ngIf="isLoggedIn">
-<div class="row justify-content-center">
-  <div class="col-md-4 register-employee">
-    <!-- form card register -->
-    <div class="card-outline-secondary">
-      <div class="card-header">
-        <h3 class="mb-0">Details of {{name}} event</h3>
-      </div>
 
-      <div class="card-body">
-        <form [formGroup]="detailForm">
+  <div class="col-md mt-4 ml-2 event-detail">
 
-          <!-- event name -->
-          <div class="form-group">
-            <label for="inputName">Name</label>
-            <input class="form-control" type="text" formControlName="name" [ngClass]="{'is-invalid': submitted && myForm.name.errors}">
-            <!-- error -->
-            <div class="invalid-feedback" *ngIf="submitted && myForm.name.errors?.required">
-              Name is required.
-            </div>
-          </div>
+    <ng-container *ngIf="accessAllowed">
+      <button (click)="accessEdit()">Edit event</button>
+    </ng-container>
 
-          <!-- event date -->
-          <div class="form-group">
-            <label for="inputDate">Date</label>
-            <input [matDatepicker]="Datepicker" placeholder="Choose a date" (click)="Datepicker.open()"
-            formControlName="date" [ngClass]="{'is-invalid': submitted && myForm.date.errors }">
-            <mat-datepicker-toggle [for]="Datepicker"></mat-datepicker-toggle>
-            <mat-datepicker #Datepicker></mat-datepicker>
-            <!-- error -->
-            <div class="invalid-feedback" *ngIf="submitted && myForm.date.errors?.required">
-              Date is required.
-            </div>
-          </div>
+        <h3 class="mb-2">Details of {{name}} event</h3>
 
-          <!-- event time -->
-          <div class="form-group">
-            <label for="inputTime">Time</label>
-            <input disabled type="time" atp-time-picker formControlName="time" [ngClass]="{'is-invalid': submitted && myForm.time.errors}">
-            <!-- error -->
-            <div class="invalid-feedback" *ngIf="submitted && myForm.time.errors?.required">
-              Time is required.
-            </div>
-          </div>
+        <tbody>
+            <td>Date: {{date}}</td>
 
-          <!-- event description -->
-          <div class="form-group">
-            <label for="inputDescription3">Description</label>
-            <input class="form-control" type="text" formControlName="description" [ngClass]="{'is-invalid': submitted && myForm.description.errors}">
-            <!-- error -->
-            <div class="invalid-feedback" *ngIf="submitted && myForm.description.errors?.required">
-              Description is required.
-            </div>
-          </div>
+            <tr>
+              <td>Address: {{address}}</td>
+            </tr>
+        </tbody>
+  </div>
 
-          <!-- event address -->
-          <div class="form-group">
-            <label for="inputAddress3">Address</label>
-            <input class="form-control" type="text" formControlName="address" [ngClass]="{'is-invalid': submitted && myForm.address.errors}">
-            <!-- error -->
-            <div class="invalid-feedback" *ngIf="submitted && myForm.address.errors?.required">
-              Address is required.
-            </div>
-          </div>
+<div style="float: left">
+  <div class="column1">
+<!--------------- Needed items asked by owner ------------------->
+    <table class="table table-bordered col-md mt-2">
+      <thead>
+        <tr>
+          <th>What is <a style="color: red">asked</a> by {{userId}}:</th>
+        </tr>
+      </thead>
 
-<!----------////////////////////////////////////---------->
+    <div [formGroup]="detailForm">
+<!--------- Drink ----------->
+      <thead class="table-warning">
+        <tr>
+          <th scope="col" colspan="2">Drink #</th>
+          <th scope="col">Drink Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+            <tr *ngFor="let drink of drinkForm.controls; let i = index">
+              <td colspan="2">Drink Asked #{{i+1}}</td>
+              <td align="center">{{drinkQuantity(i)}}</td>
+              <td align="center">{{drinkName(i)}}</td>
+              <td>{{drinkSize(i)}}</td>
+            </tr>
+        </tbody>
 
-          <!-- Drink form group-->
-        <div formArrayName="drink">
-          <div *ngFor="let drink of drinkForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Drink #{{i+1}}
-            </div>
-              <label>
-              Drink Name #{{i+1}}
-              <input disabled class="form-control" type="text" formControlName="drinkName">
-              </label>
-              <label>
-              Drink size #{{i+1}}
-              <input disabled class="form-control" type="number" formControlName="drinkSizeNumber" placeholder="Enter size">
-              </label>
-              <select disabled class="custom-select form-control" formControlName="drinkSize">
-              <option value="">Choose size unit...</option>
-              <option *ngFor="let drinkSize of drinkSizeSelection" value="{{drinkSize}}">{{drinkSize}}
-              </option>
-            </select>
-              <label>
-                Number of drinks #{{i+1}}
-                <input disabled class="form-control" type="number" formControlName="drinkQuantity" placeholder="Enter quantity">
-              </label>
-          </div>
-        </div>
+<!--------- Food ----------->
+      <thead class="table-success">
+        <tr>
+          <th scope="col" colspan="2">Food #</th>
+          <th scope="col">Food Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let food of foodForm.controls; let i = index">
+              <td colspan="2">Food Asked #{{i+1}}</td>
+              <td align="center">{{foodQuantity(i)}}</td>
+              <td align="center">{{foodName(i)}}</td>
+              <td>{{foodSize(i)}}</td>
+          </tr>
+        </tbody>
 
-        <!-- Food form group -->
-        <div formArrayName="food">
-          <div *ngFor="let food of foodForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Food #{{i+1}}
-            </div>
-              <label>
-              Food Name #{{i+1}}
-              <input disabled class="form-control" type="text" formControlName="foodName">
-              </label>
-              <label>
-              Food size #{{i+1}}
-              <input disabled class="form-control" type="number" formControlName="foodSizeNumber" placeholder="Enter size">
-              </label>
-              <select disabled class="custom-select form-control"
-              formControlName="foodSize">
-              <option value="">Choose size unit...</option>
-              <option *ngFor="let foodSize of foodSizeSelection" value="{{foodSize}}">{{foodSize}}
-              </option>
-            </select>
-              <label>
-                Food Quantity #{{i+1}}
-                <input disabled class="form-control" type="number" formControlName="foodQuantity" placeholder="Enter quantity">
-              </label>
+<!--------- Object ----------->
+      <thead class="table-primary">
+        <tr>
+          <th scope="col" colspan="2">Object #</th>
+          <th scope="col">Object Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let object of objectForm.controls; let i = index">
+              <td colspan="2">Object Asked #{{i+1}}</td>
+              <td align="center">{{objectQuantity(i)}}</td>
+              <td align="center">{{objectName(i)}}</td>
+              <td></td>
+          </tr>
+        </tbody>
 
-          </div>
-        </div>
-
-        <!-- Object form group -->
-        <div formArrayName="object">
-          <div *ngFor="let object of objectForm.controls; let i=index" [formGroupName]="i">
-            <div>
-              Object #{{i+1}}
-            </div>
-              <label>
-              Object Name #{{i+1}}
-              <input disabled class="form-control" type="text" formControlName="objectName">
-              </label>
-              <label>
-                Object Quantity #{{i+1}}
-                <input disabled class="form-control" type="number" formControlName="objectQuantity" placeholder="Enter quantity">
-              </label>
-          </div>
-        </div>
-        </form>
-
-        <button class="btn btn-success" (click)="getValueFoodForm()">Test math</button>
-      </div>
     </div>
+    </table>
   </div>
 </div>
-<div *ngIf="!isLoggedIn"> Please log in first</div>
 
-<!-- display result of computation
+  <div class="column2">
+<!--------------- Brought items asked by guests ------------------->
+    <table class="table table-bordered col-md mt-2" style="border-color: red">
+      <thead>
+        <tr>
+          <th class="noborder">What is <a style="color: red">brought</a> by the guests:</th>
+        </tr>
+      </thead>
+
+    <div [formGroup]="detailForm">
+<!--------- Drink brought ----------->
+      <thead class="table-info">
+        <tr>
+          <th scope="col" colspan="2">Drink #</th>
+          <th scope="col">Drink Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+            <tr *ngFor="let drink of drinkBroughtForm.controls; let i = index">
+              <td colspan="2">Drink Brought #{{i+1}}</td>
+              <td align="center">{{drinkBroughtQuantity(i)}}</td>
+              <td align="center">{{drinkBroughtName(i)}}</td>
+              <td>{{drinkBroughtSize(i)}}</td>
+            </tr>
+        </tbody>
+
+<!--------- Food brought ----------->
+      <thead class="table-danger">
+        <tr>
+          <th scope="col" colspan="2">Food #</th>
+          <th scope="col">Food Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let food of foodBroughtForm.controls; let i = index">
+              <td colspan="2">Food Needed #{{i+1}}</td>
+              <td align="center">{{foodBroughtQuantity(i)}}</td>
+              <td align="center">{{foodBroughtName(i)}}</td>
+              <td>{{foodBroughtSize(i)}}</td>
+          </tr>
+        </tbody>
+
+<!--------- Object brought ----------->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col" colspan="2">Object #</th>
+          <th scope="col">Object Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let object of objectBroughtForm.controls; let i = index">
+              <td colspan="2">Object Brought #{{i+1}}</td>
+              <td align="center">{{objectBroughtQuantity(i)}}</td>
+              <td align="center">{{objectBroughtName(i)}}</td>
+              <td></td>
+          </tr>
+        </tbody>
+
+    </div>
+    </table>
+
+  </div>
+
+  <div class="row">
+    <!--------------- TOTAL RESULTS ------------------->
+    <table class="result table table-bordered col-md mt-2">
+      <thead>
+        <tr>
+          <td class="noborder"><b>Total result </b>after addition of all items brought</td>
+        </tr>
+      </thead>
+
+    <div [formGroup]="detailForm">
+<!--------- Drink brought ----------->
+      <thead class="table-info">
+        <tr>
+          <th scope="col" colspan="2">Drink #</th>
+          <th scope="col">Drink Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+            <tr *ngFor="let drink of drinkBroughtForm.controls; let i = index">
+              <td colspan="2">Drink Brought #{{i+1}}</td>
+              <td align="center">{{drinkBroughtQuantity(i)}}</td>
+              <td align="center">{{drinkBroughtName(i)}}</td>
+              <td>{{drinkBroughtSize(i)}}</td>
+            </tr>
+        </tbody>
+
+<!--------- Food brought ----------->
+      <thead class="table-danger">
+        <tr>
+          <th scope="col" colspan="2">Food #</th>
+          <th scope="col">Food Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let food of foodBroughtForm.controls; let i = index">
+              <td colspan="2">Food Needed #{{i+1}}</td>
+              <td align="center">{{foodBroughtQuantity(i)}}</td>
+              <td align="center">{{foodBroughtName(i)}}</td>
+              <td>{{foodBroughtSize(i)}}</td>
+          </tr>
+        </tbody>
+
+<!--------- Object brought ----------->
+      <thead class="table-secondary">
+        <tr>
+          <th scope="col" colspan="2">Object #</th>
+          <th scope="col">Object Quantity</th>
+          <th scope="col" style="text-align:center">Name</th>
+          <th scope="col">Size</th>
+        </tr>
+      </thead>
+        <tbody>
+          <tr *ngFor="let object of objectBroughtForm.controls; let i = index">
+              <td colspan="2">Object Brought #{{i+1}}</td>
+              <td align="center">{{objectBroughtQuantity(i)}}</td>
+              <td align="center">{{objectBroughtName(i)}}</td>
+              <td></td>
+          </tr>
+        </tbody>
+
+    </div>
+    </table>
+  </div>
+
+
+
+
+<div *ngIf="!isLoggedIn">Please log in first</div>
+<!-- display result of computation -->
       <div>
-      {{testMath()}}
-      </div> -->
+      {{getValueFoodForm()}}
+      </div>

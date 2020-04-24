@@ -1,0 +1,39 @@
+.card-body {
+  background-color: #25B0FF;
+}
+
+.card-header {
+  background-color: rgb(129, 186, 248);
+}
+
+td, th {
+  white-space: nowrap;
+}
+
+.noborder {
+  border: 0px;
+}
+
+.column1 {
+  float: left;
+  width: auto;
+  padding-left: 20px;
+}
+
+.column2 {
+  float: left;
+  width: auto;
+  padding-left: 20px;
+}
+
+.row {
+  width: auto;
+  padding-left: 35px;
+  float: left;
+}
+
+.result {
+  border-color: darkblue;
+  border-style: solid;
+  border-width: 5px;
+}
