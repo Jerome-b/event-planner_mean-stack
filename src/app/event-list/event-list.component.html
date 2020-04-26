@@ -7,18 +7,19 @@
   </ng-container>
 
   <!-- Event list -->
-  <table class="table table-bordered" *ngIf="Event.length > 0">
+  <table class="table table-bordered mt-4" *ngIf="Event.length > 0">
     <thead class="table-success">
       <tr>
+        <th scope="col">Date</th>
         <th scope="col">Event Name</th>
-        <th scope="col">Name</th>
         <th scope="col">Description</th>
         <th scope="col">Address</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let event of Event; let i = index">
-        <th scope="row">{{event.name}}</th>
+        <th scope="row">{{event.date}}</th>
         <td>{{event.name}}</td>
         <td>{{event.description}}</td>
         <td>{{event.address}}</td>
