@@ -157,7 +157,7 @@
   </div>
 
   <div class="row">
-    <!--------------- TOTAL RESULTS ------------------->
+<!------------------------- TOTAL RESULTS ---------------------------->
     <table class="result table table-bordered col-md mt-2">
       <thead>
         <tr>
@@ -165,63 +165,60 @@
         </tr>
       </thead>
 
-    <div [formGroup]="detailForm">
-<!--------- Drink brought ----------->
-      <thead class="table-info">
-        <tr>
-          <th scope="col" colspan="2">Drink #</th>
-          <th scope="col">Drink Quantity</th>
-          <th scope="col" style="text-align:center">Name</th>
-          <th scope="col">Size</th>
-        </tr>
-      </thead>
+        <div [formGroup]="detailForm">
+        <thead class="table-success">
+          <tr>
+            <th scope="col">Drink</th>
+            <th scope="col">Quantity</th>
+            <th scope="col" style="text-align:center">Name</th>
+            <th scope="col">Size</th>
+            <th scope="col">&#10004; / 	&#10060;</th>
+          </tr>
+        </thead>
         <tbody>
-            <tr *ngFor="let drink of drinkBroughtForm.controls; let i = index">
-              <td colspan="2">Drink Brought #{{i+1}}</td>
-              <td align="center">{{drinkBroughtQuantity(i)}}</td>
-              <td align="center">{{drinkBroughtName(i)}}</td>
-              <td>{{drinkBroughtSize(i)}}</td>
-            </tr>
-        </tbody>
-
-<!--------- Food brought ----------->
-      <thead class="table-danger">
-        <tr>
-          <th scope="col" colspan="2">Food #</th>
-          <th scope="col">Food Quantity</th>
-          <th scope="col" style="text-align:center">Name</th>
-          <th scope="col">Size</th>
-        </tr>
-      </thead>
-        <tbody>
-          <tr *ngFor="let food of foodBroughtForm.controls; let i = index">
-              <td colspan="2">Food Needed #{{i+1}}</td>
-              <td align="center">{{foodBroughtQuantity(i)}}</td>
-              <td align="center">{{foodBroughtName(i)}}</td>
-              <td>{{foodBroughtSize(i)}}</td>
+          <tr *ngFor="let result of drinkForm.controls; let i = index">
+            {{nonBroughtNeededDrink(i)}}
+            <ng-container *ngIf="!duplication">
+              <td>Drink</td>
+              <ng-container *ngIf="neededDrinkQuantity <= 0">
+                <td style=color:green align="center">{{neededDrinkQuantity}}</td>
+              </ng-container>
+              <ng-container *ngIf="neededDrinkQuantity > 0">
+                <td style=color:red align="center">{{neededDrinkQuantity}}</td>
+              </ng-container>
+              <td>{{neededDrinkName}}</td>
+              <td>{{neededDrinkSizeNumber}}{{neededDrinkSize}}</td>
+              <ng-container *ngIf="neededDrinkQuantity <= 0">
+                <td style=color:green align="center">&#10004;</td>
+              </ng-container>
+              <ng-container *ngIf="neededDrinkQuantity > 0">
+                <td style=color:red align="center">&#10060;</td>
+              </ng-container>
+          </ng-container>
+          </tr>
+          <tr *ngFor="let result of drinkBroughtForm.controls; let i = index">
+            {{drinkRealtimeNeed(i)}}
+            <ng-container *ngIf="!duplication">
+              <td>Drink</td>
+              <ng-container *ngIf="finalResult <= 0">
+                <td style=color:green align="center">{{finalResult}}</td>
+              </ng-container>
+              <ng-container *ngIf="finalResult > 0">
+                <td style=color:red align="center">{{finalResult}}</td>
+              </ng-container>
+              <td>{{addedDrinkName}}</td>
+              <td>{{addedDrinkSizeNumber}}{{addedDrinkSize}}</td>
+              <ng-container *ngIf="finalResult <= 0">
+                <td style=color:green align="center">&#10004;</td>
+              </ng-container>
+              <ng-container *ngIf="finalResult > 0">
+                <td style=color:red align="center">&#10060;</td>
+              </ng-container>
+            </ng-container>
           </tr>
         </tbody>
-
-<!--------- Object brought ----------->
-      <thead class="table-secondary">
-        <tr>
-          <th scope="col" colspan="2">Object #</th>
-          <th scope="col">Object Quantity</th>
-          <th scope="col" style="text-align:center">Name</th>
-          <th scope="col">Size</th>
-        </tr>
-      </thead>
-        <tbody>
-          <tr *ngFor="let object of objectBroughtForm.controls; let i = index">
-              <td colspan="2">Object Brought #{{i+1}}</td>
-              <td align="center">{{objectBroughtQuantity(i)}}</td>
-              <td align="center">{{objectBroughtName(i)}}</td>
-              <td></td>
-          </tr>
-        </tbody>
-
-    </div>
-    </table>
+      </div>
+      </table>
   </div>
 
 
@@ -229,6 +226,7 @@
 
 <div *ngIf="!isLoggedIn">Please log in first</div>
 <!-- display result of computation -->
-      <div>
-      {{getValueFoodForm()}}
-      </div>
+      <!-- <button (click)="getValueFoodForm()">
+        dwfwe
+
+      </button> -->
