@@ -1,8 +1,8 @@
 <ng-container *ngIf="isLoggedIn">
 <ng-container *ngIf="owner == idUser || accessAllowed">
 
-<div class="row">
-  <div class="col-lg ml-4 mb-4 mr-4 edit-event">
+<div style="float: left">
+  <div class="col-lg ml-2 mb-4 mr-4 edit-event">
     <!-- form card register -->
       <div class="card-header">
         <h3 class="mb-0">Edit {{ name }} event</h3>
@@ -304,10 +304,12 @@
           </div>
         </div>
 <!------------ End of Object form group ------------->
-
-          <div class="form-group">
-            <button class="btn btn-success btn-lg btn-block mt-4" type="submit">Edit</button>
-          </div>
+          <ng-container *ngIf="owner === idUser">
+              <button class="btn btn-success btn-lg btn-block mt-4" type="submit">Edit</button>
+          </ng-container>
+          <ng-container *ngIf="owner != idUser">
+              <button class="btn btn-success btn-lg btn-block mt-4" type="submit">Confirm</button>
+          </ng-container>
         </form>
 
       </div>
