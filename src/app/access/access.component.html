@@ -15,17 +15,17 @@
             <span class="add">
               {{controls()}}
               <ng-container *ngIf="!accessButton && userAccess != loggedEmail">
-                <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Give access</button>
+                <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
               </ng-container>
               <ng-container *ngIf="accessButton && userAccess != loggedEmail">
-                <button type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove access</button>
+                <button type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove invite</button>
               </ng-container>
 
               <ng-container *ngIf="loggedEmail == userAccess">
-                <button disabled type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Give access</button>
+                <button disabled type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
               </ng-container>
               <ng-container *ngIf="loggedEmail == userAccess">
-                <button disabled type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove access</button>
+                <button disabled type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove invite</button>
               </ng-container>
             </span>
           </td>
