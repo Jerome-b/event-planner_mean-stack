@@ -1,20 +1,19 @@
  <!-- Event list -->
- <table class="table table-bordered">
-  <thead class="table-success">
-    <tr>
-      <th scope="col">Username</th>
-      <th scope="col">Email</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let user of User; let i = index">
-      <td>{{user.username}}</td>
-      <td>{{user.email}}</td>
-    </tr>
-  </tbody>
-</table>
+ <table mat-table [dataSource]="User" class="table" matSort>
+    <mat-header-row *matHeaderRowDef="displayedColumns" class="table-success"></mat-header-row>
+    <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
+    <ng-container matColumnDef="username" >
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="header">Username</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.username}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header class="header">Email</mat-header-cell>
+      <mat-cell *matCellDef="let user">{{user.email}}</mat-cell>
+    </ng-container>
 
+</table>
 
 <div>
   <button class="back" (click)="goBack()">Back</button>
 </div>
+
