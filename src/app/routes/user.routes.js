@@ -11,6 +11,8 @@ module.exports = function(app) {
   });
 
   app.get("/api/user/all", controller.findAll);
+  app.get("/api/user/specific", controller.findAll2);
+  app.get("/api/user/specific2", controller.findAll3);
 
   app.get("/api/user", [authJwt.verifyToken]);
 
