@@ -25,6 +25,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -33,6 +35,7 @@ import { AmazingTimePickerModule } from 'amazing-time-picker';
 import { EventDetailComponent } from './event-detail/event-detail.component';
 import { MyeventListComponent } from './myevent-list/myevent-list.component';
 import { AccessComponent } from './access/access.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { NgxPermissionsModule } from 'ngx-permissions';
 
@@ -64,11 +67,14 @@ import { NgxPermissionsModule } from 'ngx-permissions';
     MatListModule,
     MatIconModule,
     MatButtonModule,
+    MatTableModule,
+    MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
     AmazingTimePickerModule,
+    FlexLayoutModule,
     NgxPermissionsModule.forRoot(),
   ],
 
