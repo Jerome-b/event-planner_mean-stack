@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterContentChecked } from '@angular/core';
+import { Component, OnInit, AfterContentChecked, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, AfterViewChecked, AfterContentInit, OnChanges} from '@angular/core';
 import { UserService } from '../_services/user.service';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../_services/api.service';
@@ -6,17 +6,21 @@ import { Location } from '@angular/common';
 import { Event } from '../models/event';
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
 import { TokenStorageService } from '../_services/token-storage.service';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-access',
   templateUrl: './access.component.html',
-  styleUrls: ['./access.component.css']
+  styleUrls: ['./access.component.css'],
 })
-export class AccessComponent implements OnInit, AfterContentChecked {
+export class AccessComponent implements OnInit, AfterContentChecked, AfterViewInit {
 
+  sort;
   userId: string;
   loggedEmail: string;
   User: any = [];
+  User2: any = [];
   userEmail: any = [];
   event: Event;
   accessExist = false;
@@ -26,6 +30,7 @@ export class AccessComponent implements OnInit, AfterContentChecked {
   userAccess: any;
   i = 0;
   j = 1;
+  displayedColumns: string[] = ['username',  'invite'];
 
   constructor(
     private userService: UserService,
@@ -35,24 +40,37 @@ export class AccessComponent implements OnInit, AfterContentChecked {
     private actRoute: ActivatedRoute,
     private apiService: ApiService,
     private tokenStorageService: TokenStorageService,
-  ) {
+  ) { }
 
+  @ViewChild(MatSort, {static: false}) set content(content: ElementRef) {
+    this.sort = content;
+    if (this.sort) {
+      this.User2.sort = this.sort;
+    }
   }
 
   accessForm: FormGroup;
   submitted = false;
 
+  public doFilter = (value: string) => {
+    this.User2.filter = value.trim().toLocaleLowerCase();
+  }
+
   ngOnInit(): void {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    const id = this.actRoute.snapshot.paramMap.get('id');
     const user = this.tokenStorageService.getUser();
     this.loggedEmail = user.email;
-    const id = this.actRoute.snapshot.paramMap.get('id');
     this.getEvent(id);
     this.accessForm = this.fb.group({
       owner: [''],
       access: this.fb.array([]),
     });
+  }
+
+  ngAfterViewInit() {
     this.readUser();
+    this.readUser2();
   }
 
   ngAfterContentChecked() {
@@ -110,6 +128,15 @@ export class AccessComponent implements OnInit, AfterContentChecked {
     });
   }
 
+  readUser2() {
+    this.userService.getUsers2().subscribe((data) => {
+      this.User2 = new MatTableDataSource<any>(data);
+      this.User2.sort = this.sort;
+      this.User2.sortingDataAccessor = (data2, sortUsername) => data2[sortUsername].toLocaleLowerCase();
+    });
+  }
+
+
   // check if user already has access to the current event
   buttonAccess() {
     for ( let i = 0; i < this.event.access.length; i++) {
@@ -128,7 +155,13 @@ export class AccessComponent implements OnInit, AfterContentChecked {
       this.userAccess = user.email;
       this.i = this.i + 1;
       this.j = this.j + 1;
-      this.buttonAccess();
+      for ( let i = 0; i < this.event.access.length; i++) {
+        const result = ( (this.accessForm.get('access') as FormArray).controls[i].get('user') as FormArray).value;
+        if (result === this.userAccess) {
+          this.accessButton = true;
+          break;
+        }
+      }
     });
   }
 

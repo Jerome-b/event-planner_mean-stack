@@ -1,39 +1,49 @@
 <ng-container *ngIf="isLoggedIn">
  <!-- Event list -->
-    <table class="table table-bordered">
-      <thead class="table-success">
-        <tr>
-          <th scope="col">Username</th>
-          <th scope="col">Email</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of User; let i = index">
-          <td>{{user.username}}</td>
-          <td>{{user.email}}</td>
-          <td class="text-center edit-block">
-            <span class="add">
-              {{controls()}}
-              <ng-container *ngIf="!accessButton && userAccess != loggedEmail">
-                <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
-              </ng-container>
-              <ng-container *ngIf="accessButton && userAccess != loggedEmail">
-                <button type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove invite</button>
-              </ng-container>
-
-              <ng-container *ngIf="loggedEmail == userAccess">
-                <button disabled type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
-              </ng-container>
-              <ng-container *ngIf="loggedEmail == userAccess">
-                <button disabled type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove invite</button>
-              </ng-container>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-<div>
+<div class="back mt-4 ml-4">
   <button (click)="goBack()">Back</button>
 </div>
+
+<div fxLayout fxLayoutAlign="left center" class="search mt-4 ml-4">
+  <mat-form-field fxFlex="40%">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder='Search'>
+  </mat-form-field>
+</div>
+
+<div class="justify-content-center ml-4" style="float:left">
+<mat-table [dataSource]="User2" matSort>
+  <mat-header-row *matHeaderRowDef="displayedColumns" class="table-success"></mat-header-row>
+  <mat-row *matRowDef="let row; columns:displayedColumns; let i=index"></mat-row>
+
+  <ng-container matColumnDef="username">
+    <mat-header-cell  *matHeaderCellDef>Username</mat-header-cell>
+    <mat-cell class="cell" *matCellDef="let row">
+      {{row.username}}
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="invite">
+    <mat-header-cell *matHeaderCellDef>Invite</mat-header-cell>
+    <mat-cell class="cell" *matCellDef="let row; let i=index">
+      <ng-container>
+      {{controls()}}
+      </ng-container>
+        <ng-container *ngIf="!accessButton && userAccess != loggedEmail">
+          <button type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
+        </ng-container>
+        <ng-container *ngIf="accessButton && userAccess != loggedEmail">
+          <button type="button" class="btn btn-danger btn-sm" (click)="removeAccess(i)">Remove invite</button>
+        </ng-container>
+
+        <ng-container *ngIf="loggedEmail == userAccess">
+          <button disabled type="button" class="btn btn-success btn-sm" (click)="giveAccess(i)">Invite</button>
+        </ng-container>
+        <ng-container *ngIf="loggedEmail == userAccess">
+          <button disabled type="button" class="btn btn-danger btn-sm ml-2" (click)="removeAccess(i)">Remove invite</button>
+        </ng-container>
+    </mat-cell>
+  </ng-container>
+</mat-table>
+</div>
+
 

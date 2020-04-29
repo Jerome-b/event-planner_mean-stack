@@ -1,0 +1,21 @@
+::ng-deep .mat-sort-header-arrow {
+  opacity: 0.90 !important;
+  transform: translateY(0px) !important;
+}
+
+.mat-table {
+  width: auto;
+  min-width: 120%;
+}
+
+.btn {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+.cell {
+  overflow-x: auto;
+  margin-inline-end: 15px;
+}
+
