@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { User } from '../models/user.model';
+import { Observable } from 'rxjs';
 
 const API_URL = 'http://localhost:8080/api/user/';
 
@@ -15,4 +17,11 @@ export class UserService {
     return this.http.get(API_URL + 'all');
   }
 
+  getUsers2(): Observable<User[]> {
+    return this.http.get<User[]>(API_URL + 'specific');
+  }
+
+  getUsers3(): Observable<User[]> {
+    return this.http.get<User[]>(API_URL + 'specific2');
+  }
 }
