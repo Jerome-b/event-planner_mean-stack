@@ -25,6 +25,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  public doFilter = (value: string) => {
+    this.User.filter = value.trim().toLocaleLowerCase();
+  }
+
   ngOnInit() { }
 
   ngAfterViewInit() {

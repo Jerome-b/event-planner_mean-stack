@@ -1,4 +1,9 @@
  <!-- Event list -->
+ <div fxLayout fxLayoutAlign="center center" class="search mt-4 ml-4">
+  <mat-form-field fxFlex="40%">
+    <input matInput type="text" (keyup)="doFilter($event.target.value)" placeholder='Search'>
+  </mat-form-field>
+ </div>
  <table mat-table [dataSource]="User" class="table" matSort>
     <mat-header-row *matHeaderRowDef="displayedColumns" class="table-success"></mat-header-row>
     <mat-row *matRowDef="let row; columns:displayedColumns;"></mat-row>
