@@ -86,11 +86,16 @@ export class EventDetailComponent implements OnInit {
   event: Event;
 
   ngOnInit() {
+    // if there's token, then True value
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    // get event id
     const id = this.actRoute.snapshot.paramMap.get('id');
+    // get token of user currently logged in
     const user = this.tokenStorageService.getUser();
     this.userEmail = user.email;
+    // call function to display the right event
     this.getEvent(id);
+    // initialize form
     this.detailForm = this.fb.group({
       name: [{value: '', disabled: true}, [Validators.required]],
       date: [{value: '', disabled: true}, [Validators.required]],
