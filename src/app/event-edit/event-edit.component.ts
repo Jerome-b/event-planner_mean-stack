@@ -41,8 +41,11 @@ export class EventEditComponent implements OnInit {
   event: Event;
 
   ngOnInit() {
+    // if there's token, then True value
     this.isLoggedIn = !!this.tokenStorageService.getToken();
+    // get event id
     const id = this.actRoute.snapshot.paramMap.get('id');
+    // call event
     this.getEvent(id);
     this.editForm = this.fb.group({
       owner: [''],
