@@ -1,15 +1,39 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 import { ApiService } from '../_services/api.service';
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { TokenStorageService } from '../_services/token-storage.service';
+import * as _moment from 'moment';
+import {default as _rollupMoment} from 'moment';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+const moment = _rollupMoment || _moment;
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'LL',
+  },
+  display: {
+    dateInput: 'LL',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  }
+};
 
 @Component({
   selector: 'app-event-create',
   templateUrl: './event-create.component.html',
-  styleUrls: ['./event-create.component.css']
+  styleUrls: ['./event-create.component.css'],
+  providers: [
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
+
 export class EventCreateComponent implements OnInit {
 
   submitted = false;
@@ -55,7 +79,7 @@ export class EventCreateComponent implements OnInit {
     this.eventForm = this.fb.group({
       owner: [this.userId, [Validators.nullValidator]],
       name: ['', [Validators.required]],
-      date: ['', [Validators.required]],
+      date: new FormControl(moment()),
       time: ['', [Validators.required]],
       address: ['', [Validators.required]],
       description: ['', [Validators.required]],
