@@ -1,4 +1,4 @@
-# Event planner (in development)
+# Event planner
 
 ## Installation
 
