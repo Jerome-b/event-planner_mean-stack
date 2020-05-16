@@ -33,9 +33,13 @@ app.use(bodyParser.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors(corsOptions));
-app.use(express.static(path.join(__dirname, 'dist/eventplanner')));
-app.use('/', express.static(path.join(__dirname, 'dist/eventplanner')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/', express.static(path.join(__dirname, 'public')));
 app.use('/eventapi', eventRoute)
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 // routes
 require('./src/app/routes/auth.routes')(app);
