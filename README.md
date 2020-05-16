@@ -1,6 +1,8 @@
 # Event planner
 
-## Installation
+App accessible here: https://guarded-peak-28468.herokuapp.com/
+
+## Local installation
 
 Install MongoDB server here https://www.mongodb.com/download-center/community \
 Add Mongo's bin folder to the path environment variable.
