@@ -1,6 +1,6 @@
 # Event planner
 
-App accessible here: https://guarded-peak-28468.herokuapp.com/
+App accessible here: http://www.evplan.net/home
 
 ## Local installation
 
