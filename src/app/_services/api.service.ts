@@ -8,7 +8,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 })
 
 export class ApiService {
-  baseUri = '/eventapi';
+  baseUri = 'http://www.evplan.net/eventapi';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
