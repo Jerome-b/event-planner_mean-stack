@@ -1,4 +1,4 @@
 module.exports = {
-  db: 'mongodb+srv://Merou:ThuiNach,,@evplan-88whp.mongodb.net/test?retryWrites=true&w=majority'
+  db: 'mongodb://Jeromeb:azerty,,0@ds017193.mlab.com:17193/heroku_4k6l834s'
 };
 
