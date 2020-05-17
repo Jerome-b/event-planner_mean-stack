@@ -73,8 +73,6 @@ export class EventCreateComponent implements OnInit {
       const user = this.tokenStorageService.getUser();
       this.userId = user.id;
       this.userEmail = user.email;
-      console.log(this.userEmail);
-      console.log(this.userId);
     }
     this.eventForm = this.fb.group({
       owner: [this.userId, [Validators.nullValidator]],

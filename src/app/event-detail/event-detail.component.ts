@@ -461,7 +461,6 @@ export class EventDetailComponent implements OnInit {
               this.addedFoodSizeNumber === this.addedFoodSizeNumber2 &&
               this.addedFoodSize === this.addedFoodSize2 ) {
           this.finalResult = this.addedFoodQuantity2 + this.finalResult || 0;
-          console.log('final Result1: ' + this.finalResult);
         }
       }
 
