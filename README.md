@@ -1,6 +1,8 @@
 # Event planner
 
-## Installation
+App accessible here: http://www.evplan.net/home
+
+## Local installation
 
 Install MongoDB server here https://www.mongodb.com/download-center/community \
 Add Mongo's bin folder to the path environment variable.
