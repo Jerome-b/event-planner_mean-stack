@@ -10,7 +10,7 @@ Add Mongo's bin folder to the path environment variable.
 ## Necessary modules
 
 Go to your project folder and run the following commands:\
-Run `npm install` to install all the dependencies
+Run `npm install` to install all the dependencies\
 Run `npm install -g nodemon`
 
 ## Execute code
