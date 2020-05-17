@@ -480,7 +480,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         _classCallCheck(this, ApiService);
 
         this.http = http;
-        this.baseUri = '/eventapi';
+        this.baseUri = 'http://www.evplan.net/eventapi';
         this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]().set('Content-Type', 'application/json');
       } // Create
 
@@ -607,7 +607,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /*! @angular/common/http */
     "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 
-    var AUTH_API = '/api/auth/';
+    var AUTH_API = 'http://www.evplan.net/api/auth/';
     var httpOptions = {
       headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
         'Content-Type': 'application/json'
@@ -802,7 +802,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     /*! @angular/common/http */
     "./node_modules/@angular/common/__ivy_ngcc__/fesm2015/http.js");
 
-    var API_URL = '/api/user/';
+    var API_URL = 'http://www.evplan.net/api/user/';
 
     var UserService =
     /*#__PURE__*/
@@ -10834,7 +10834,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
     var environment = {
-      production: false,
+      production: true,
       apiBaseUrl: 'http://localhost:3000/'
     };
     /*

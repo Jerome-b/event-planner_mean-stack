@@ -376,7 +376,7 @@ __webpack_require__.r(__webpack_exports__);
 class ApiService {
     constructor(http) {
         this.http = http;
-        this.baseUri = '/eventapi';
+        this.baseUri = 'http://www.evplan.net/eventapi';
         this.headers = new _angular_common_http__WEBPACK_IMPORTED_MODULE_3__["HttpHeaders"]().set('Content-Type', 'application/json');
     }
     // Create
@@ -449,7 +449,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const AUTH_API = '/api/auth/';
+const AUTH_API = 'http://www.evplan.net/api/auth/';
 const httpOptions = {
     headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({ 'Content-Type': 'application/json' })
 };
@@ -551,7 +551,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const API_URL = '/api/user/';
+const API_URL = 'http://www.evplan.net/api/user/';
 class UserService {
     constructor(http) {
         this.http = http;
@@ -5660,7 +5660,7 @@ __webpack_require__.r(__webpack_exports__);
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 const environment = {
-    production: false,
+    production: true,
     apiBaseUrl: 'http://localhost:3000/',
 };
 /*
