@@ -1,3 +1,12 @@
 .sidenav-menu {
-  background-color: #16c4ff;
+  background-color: #D1E1FF;
+}
+
+.container-fluid {
+  background-image: url("https://mdbootstrap.com/img/Photos/Horizontal/Nature/full page/img(11).jpg");
+  height: 100vh;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }

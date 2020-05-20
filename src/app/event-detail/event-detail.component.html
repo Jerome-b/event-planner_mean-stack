@@ -1,6 +1,6 @@
 <ng-container *ngIf="isLoggedIn">
 
-  <div class="col-md mt-4 ml-2 event-detail">
+  <div class="col-md ml-2 event-detail" style="padding-top: 15px">
 
     <ng-container *ngIf="accessAllowed">
       <button (click)="accessEdit()">Edit event</button>
@@ -20,10 +20,10 @@
 <div style="float: left">
   <div class="column1">
 <!--------------- Needed items asked by owner ------------------->
-    <table class="table table-bordered col-md mt-2">
+    <table class="asked table table-bordered col-md mt-2">
       <thead>
         <tr>
-          <th>What is <a style="color: red">asked</a> by owner:</th>
+          <th class="noborder">What is <a style="color: red">asked</a> by owner:</th>
         </tr>
       </thead>
 

@@ -1,5 +1,5 @@
 <ng-container *ngIf="isLoggedIn">
-<div class="container">
+<div class="container" style="padding-top: 15px">
 
   <!-- No data message -->
   <ng-container *ngIf="Event.length <= 0" class="no-data text-center">
@@ -8,7 +8,7 @@
   </ng-container>
 
   <!-- Event list -->
-  <table class="table table-bordered mt-4" *ngIf="Event.length > 0">
+  <table class="table table-bordered" *ngIf="Event.length > 0">
     <thead class="table-success">
       <tr>
         <th scope="col">Date</th>

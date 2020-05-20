@@ -1,7 +1,16 @@
-<div class="container">
-  <header class="jumbotron">
-  <p>Welcome to EvPlan!</p>
-  </header>
+<div>
+  <p class="py-2 text-center">Welcome to EvPlan!</p>
 
-  <div>Plan your events and invite your friends here</div>
+  <div class="mb-5 text-center">Plan your events and invite your friends here</div>
+
+  <ng-container *ngIf="isLoggedIn">
+    <button [routerLink]="'/event-create'">Create event here</button>
+  </ng-container>
+
+  <ng-container *ngIf="!isLoggedIn">
+    <div class="mt-5 text-center">Please register first by clicking <a href="/register">here</a></div>
+    <div class="text-center">Already have an account? <a href="/login">Click here</a></div>
+  </ng-container>
 </div>
+
+

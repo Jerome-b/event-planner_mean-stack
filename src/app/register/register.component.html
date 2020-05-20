@@ -75,14 +75,19 @@
           required
           minlength="3"
           maxlength="20"
+          pattern="[a-zA-Z0-9-_]+$"
           #username="ngModel"
         />
         <div class="alert-danger" *ngIf="f.submitted && username.invalid">
-          <div *ngIf="username.errors.required">Username is required</div>
-          <div *ngIf="username.errors.minlength">
+          <div *ngIf="username.errors.pattern && username.touched">
+            Only alphanumeric, - and _ characters are accepted
+          </div>
+          <div *ngIf="username.errors.required">
+            Username is required</div>
+          <div *ngIf="username.errors.minlength && username.touched">
             Username must be at least 3 characters
           </div>
-          <div *ngIf="username.errors.maxlength">
+          <div *ngIf="username.errors.maxlength && username.touched">
             Username must be at most 20 characters
           </div>
         </div>
@@ -99,10 +104,13 @@
           required
           minlength="2"
           maxlength="13"
+          pattern="[0-9]+$"
           #phone="ngModel"
         />
         <div class="alert-danger" *ngIf="f.submitted && phone.invalid">
-          <div *ngIf="phone.errors.required">Phone number is required</div>
+          <div *ngIf="phone.errors.pattern && phone.touched">Phone number must be numeric</div>
+          <div *ngIf="phone.errors.required">
+            Phone number is required</div>
           <div *ngIf="phone.errors.minlength">
             Phone number must be at least 2 digits long
           </div>
@@ -121,13 +129,13 @@
           name="email"
           [(ngModel)]="form.email"
           required
-          email
+          pattern="^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
           #email="ngModel"
         />
         <div class="alert-danger" *ngIf="f.submitted && email.invalid">
           <div *ngIf="email.errors.required">Email is required</div>
-          <div *ngIf="email.errors.email">
-            Email must be a valid email address
+          <div *ngIf="email.errors.pattern && email.touched">
+            Must be a valid email address
           </div>
         </div>
       </div>

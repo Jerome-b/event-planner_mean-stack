@@ -86,7 +86,7 @@ export class EventCreateComponent implements OnInit {
         drinkSize: ['fl.oz', [Validators.required]],
         drinkSizeNumber: ['', [Validators.required]],
         drinkQuantity: ['', [Validators.required]],
-      })]),
+      })], [Validators.required]),
       drinkAdded: this.fb.array([]),
       foodNeeded: this.fb.array([this.fb3.group({
         foodName: ['', [Validators.required]],

@@ -13,7 +13,8 @@ export class HomeComponent implements OnInit {
   id: string;
 
   constructor(
-    private tokenStorageService: TokenStorageService) { }
+    private tokenStorageService: TokenStorageService,
+    ) { }
 
   ngOnInit() {
     this.isLoggedIn = !!this.tokenStorageService.getToken();
@@ -24,4 +25,5 @@ export class HomeComponent implements OnInit {
       this.id = user.id;
     }
   }
+
 }
